@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}My Applications - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>My Job Applications</h2>
+        
+        {% if applications %}
+            <div class="row">
+                {% for application in applications %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title">{{ application.job.title }}</h5>
+                                    <span class="badge bg-{{ application.get_status_display_class }} status-badge">
+                                        {{ application.get_status_display }}
+                                    </span>
+                                </div>
+                                
+                                <h6 class="card-subtitle mb-2 text-muted">{{ application.job.company.name }}</h6>
+                                
+                                <p class="card-text">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ application.job.location }}
+                                    {% if application.job.remote %}<span class="badge bg-info ms-2">Remote</span>{% endif %}
+                                </p>
+                                
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Applied {{ application.applied_date|timesince }} ago
+                                    </small>
+                                </p>
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'applications:application_detail' application.id %}" class="btn btn-primary btn-sm">View Details</a>
+                                    <a href="{% url 'jobs:job_detail' application.job.slug %}" class="btn btn-outline-primary btn-sm">View Job</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                <h4>No applications yet</h4>
+                <p class="text-muted">Start applying for jobs to see your applications here.</p>
+                <a href="{% url 'jobs:job_list' %}" class="btn btn-primary">Browse Jobs</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+

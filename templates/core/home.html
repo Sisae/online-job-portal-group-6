@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Employer Dashboard - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-primary text-white p-5 rounded mb-4">
+            <h1 class="display-4">Welcome to Your Job Portal</h1>
+            <p class="lead">Manage your job postings, track applications, and grow your team.</p>
+            {% if not user.is_authenticated %}
+                <a class="btn btn-light btn-lg" href="{% url 'accounts:signup' %}" role="button">Get Started</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if user.is_authenticated %}
+<div class="row">
+    <div class="col-md-8">
+        <h2>Recent Job Postings</h2>
+        {% if recent_jobs %}
+            <div class="row">
+                {% for job in recent_jobs %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card job-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title">{{ job.title }}</h5>
+                                    {% if job.is_active %}
+                                        <span class="badge bg-success">Active</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    {% endif %}
+                                </div>
+                                <p class="card-text">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}
+                                    {% if job.remote %}<span class="badge bg-info ms-2">Remote</span>{% endif %}
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">{{ job.job_type|title }} • Posted {{ job.posted_date|timesince }} ago</small>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'jobs:job_detail' job.slug %}" class="btn btn-primary btn-sm">View Details</a>
+                                    <small class="text-muted">
+                                        <i class="fas fa-users me-1"></i>{{ job.get_application_count }} applications
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-3">
+                <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-primary">Manage All Jobs</a>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-briefcase fa-3x text-muted mb-3"></i>
+                <h4>No jobs posted yet</h4>
+                <p class="text-muted">Start by posting your first job opening.</p>
+                <a href="{% url 'jobs:job_create' %}" class="btn btn-primary">Post Your First Job</a>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Quick Stats</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-briefcase me-2"></i>{{ total_jobs }} Total Jobs</li>
+                    <li><i class="fas fa-check-circle me-2"></i>{{ recent_jobs|length }} Active Jobs</li>
+                    <li><i class="fas fa-users me-2"></i>{{ total_applications }} Total Applications</li>
+                    <li><i class="fas fa-clock me-2"></i>{{ pending_applications }} Pending Reviews</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6 class="card-title">Application Status</h6>
+                <div class="row text-center">
+                    <div class="col-6 mb-2">
+                        <div class="badge bg-primary w-100">{{ under_review }} Under Review</div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="badge bg-warning w-100">{{ interviews }} Interviews</div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="badge bg-success w-100">{{ offers }} Offers</div>
+                    </div>
+                    <div class="col-6 mb-2">
+                        <div class="badge bg-danger w-100">{{ rejected }} Rejected</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body text-center">
+                <h6>Quick Actions</h6>
+                <a href="{% url 'jobs:job_create' %}" class="btn btn-primary w-100 mb-2">Post a Job</a>
+                <a href="{% url 'applications:application_list' %}" class="btn btn-outline-primary w-100 mb-2">View Applications</a>
+                <a href="{% url 'companies:my_company' %}" class="btn btn-outline-primary w-100">Company Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-building fa-3x text-primary mb-3"></i>
+                <h4>For Employers</h4>
+                <p>Post jobs, manage applications, and find the right candidates for your company.</p>
+                <a href="{% url 'accounts:signup' %}" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="fas fa-chart-line fa-3x text-success mb-3"></i>
+                <h4>Analytics & Insights</h4>
+                <p>Track your job performance and application metrics with detailed analytics.</p>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-primary">Login to View</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
