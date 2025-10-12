@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Company
 from .forms import CompanyForm
+from applications.models import Application
 
 
 class CompanyListView(ListView):
@@ -60,6 +61,13 @@ class MyCompanyView(LoginRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if not self.get_object():
+        company = self.object
+        if not company:
             context['no_company'] = True
+        else:
+            jobs = company.jobs.all()
+            context['jobs'] = jobs
+            context['total_jobs_count'] = jobs.count()
+            context['active_jobs_count'] = jobs.filter(is_active=True).count()
+            context['total_applications_count'] = Application.objects.filter(job__company=company).count()
         return context

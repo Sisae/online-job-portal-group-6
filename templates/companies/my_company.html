@@ -75,9 +75,9 @@
                 <a href="{% url 'jobs:job_create' %}" class="btn btn-primary btn-sm">Post a Job</a>
             </div>
             <div class="card-body">
-                {% if company.jobs.all %}
+                {% if jobs %}
                     <div class="row">
-                        {% for job in company.jobs.all %}
+                        {% for job in jobs %}
                             <div class="col-md-6 mb-3">
                                 <div class="card">
                                     <div class="card-body">
@@ -122,9 +122,9 @@
             </div>
             <div class="card-body">
                 <ul class="list-unstyled">
-                    <li><i class="fas fa-briefcase me-2"></i>{{ company.jobs.count }} Total Jobs</li>
-                    <li><i class="fas fa-check-circle me-2"></i>{{ company.jobs.filter.is_active.count }} Active Jobs</li>
-                    <li><i class="fas fa-users me-2"></i>Total Applications</li>
+                    <li><i class="fas fa-briefcase me-2"></i>{{ total_jobs_count }} Total Jobs</li>
+                    <li><i class="fas fa-check-circle me-2"></i>{{ active_jobs_count }} Active Jobs</li>
+                    <li><i class="fas fa-users me-2"></i>{{ total_applications_count }} Total Applications</li>
                 </ul>
             </div>
         </div>

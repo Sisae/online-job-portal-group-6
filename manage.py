@@ -7,6 +7,12 @@ import sys
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'jobportal_project.settings')
+    
+    # Add apps folder to Python path without overriding project-level packages
+    apps_path = os.path.join(os.path.dirname(__file__), 'apps')
+    if apps_path not in sys.path:
+        sys.path.append(apps_path)
+    
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

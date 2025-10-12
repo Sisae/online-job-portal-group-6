@@ -1,7 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.conf import settings
 
 
 class UserProfile(models.Model):
@@ -10,7 +8,7 @@ class UserProfile(models.Model):
         ('employer', 'Employer'),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile')
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='job_seeker')
     phone_number = models.CharField(max_length=20, blank=True)
     bio = models.TextField(blank=True)
@@ -31,12 +29,14 @@ class UserProfile(models.Model):
         return self.user_type == 'job_seeker'
 
 
-@receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    # Ensure profile exists before saving (for manual user creation in shells/tests)
+    try:
+        instance.profile.save()
+    except UserProfile.DoesNotExist:
+        UserProfile.objects.create(user=instance)

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 
@@ -14,7 +14,7 @@ class Application(models.Model):
     ]
 
     job = models.ForeignKey('jobs.Job', on_delete=models.CASCADE, related_name='applications')
-    applicant = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
+    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='applications')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='applied')
     cover_letter = models.TextField(blank=True)
     resume = models.FileField(upload_to='resumes/', blank=True, null=True)

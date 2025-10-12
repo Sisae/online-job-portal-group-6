@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.conf import settings
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
@@ -25,7 +25,7 @@ class Job(models.Model):
     posted_date = models.DateTimeField(auto_now_add=True)
     closing_date = models.DateTimeField()
     is_active = models.BooleanField(default=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_jobs')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='created_jobs')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

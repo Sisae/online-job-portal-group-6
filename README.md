@@ -16,7 +16,7 @@ A Django-based job portal application with employer and job seeker functionality
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd jobportal-fresh
+   cd online-job-portal-group-6
    ```
 
 2. **Create and activate virtual environment**
@@ -75,9 +75,16 @@ EMAIL_HOST_USER=your-email@gmail.com
 EMAIL_HOST_PASSWORD=your-app-password
 ```
 
+## Notes
+
+- The active settings module is `jobportal_project.settings` (used by `manage.py`).
+- Default DB is SQLite (`db.sqlite3`).
+- CORS is configured for local dev; adjust `CORS_ALLOWED_ORIGINS` as needed in `jobportal_project/settings.py`.
+
 ## Deployment
 
-For Heroku deployment, the project includes:
+For Heroku or similar platforms, consider adding:
+
 - `Procfile` for process management
 - `runtime.txt` for Python version specification
 - `whitenoise` for static file serving
