@@ -3,69 +3,77 @@
 {% block title %}Edit Profile - Job Portal{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3>Edit Profile</h3>
-            </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg rounded-4 border-0" style="background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
+                <div class="card-header bg-transparent border-0">
+                    <h3 class="text-white">Edit Profile</h3>
+                </div>
+                <div class="card-body text-white">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
                                 <label for="{{ form.user_type.id_for_label }}" class="form-label">Account Type</label>
-                                {{ form.user_type }}
+                                <select name="{{ form.user_type.name }}" id="{{ form.user_type.id_for_label }}" class="form-control bg-transparent text-white border-light">
+                                    {% for value, label in form.user_type.field.choices %}
+                                        <option value="{{ value }}" {% if value == form.user_type.value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
                                 {% if form.user_type.errors %}
                                     <div class="text-danger">{{ form.user_type.errors }}</div>
                                 {% endif %}
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
+
+                            <div class="col-md-6">
                                 <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
-                                {{ form.phone_number }}
+                                <input type="text" name="{{ form.phone_number.name }}" id="{{ form.phone_number.id_for_label }}" value="{{ form.phone_number.value }}" class="form-control bg-transparent text-white border-light">
                                 {% if form.phone_number.errors %}
                                     <div class="text-danger">{{ form.phone_number.errors }}</div>
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
-                        {{ form.location }}
-                        {% if form.location.errors %}
-                            <div class="text-danger">{{ form.location.errors }}</div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
-                        {{ form.bio }}
-                        {% if form.bio.errors %}
-                            <div class="text-danger">{{ form.bio.errors }}</div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
-                        {{ form.profile_picture }}
-                        {% if form.profile_picture.errors %}
-                            <div class="text-danger">{{ form.profile_picture.errors }}</div>
-                        {% endif %}
-                    </div>
-                    
-                    <div class="d-flex justify-content-between">
-                        <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Update Profile</button>
-                    </div>
-                </form>
+
+                        <div class="mb-3 mt-3">
+                            <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
+                            <input type="text" name="{{ form.location.name }}" id="{{ form.location.id_for_label }}" value="{{ form.location.value }}" class="form-control bg-transparent text-white border-light">
+                            {% if form.location.errors %}
+                                <div class="text-danger">{{ form.location.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
+                            <textarea name="{{ form.bio.name }}" id="{{ form.bio.id_for_label }}" class="form-control bg-transparent text-white border-light">{{ form.bio.value }}</textarea>
+                            {% if form.bio.errors %}
+                                <div class="text-danger">{{ form.bio.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
+                            <input type="file" name="{{ form.profile_picture.name }}" id="{{ form.profile_picture.id_for_label }}" class="form-control bg-transparent text-white border-light">
+                            {% if form.profile_picture.errors %}
+                                <div class="text-danger">{{ form.profile_picture.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'accounts:profile' %}" class="btn btn-outline-light rounded-pill">Cancel</a>
+                            <button type="submit" class="btn btn-primary rounded-pill">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .text-danger {
+        font-size: 0.875rem;
+    }
+</style>
 {% endblock %}
-
-
