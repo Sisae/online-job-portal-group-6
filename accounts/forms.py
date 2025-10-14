@@ -30,10 +30,14 @@ class CustomUserCreationForm(UserCreationForm):
         user.last_name = self.cleaned_data['last_name']
         if commit:
             user.save()
-            # Create user profile
-            UserProfile.objects.create(
+            # Get or create user profile (signal might have already created it)
+            profile, created = UserProfile.objects.get_or_create(
                 user=user,
-                user_type=self.cleaned_data['user_type']
+                defaults={'user_type': self.cleaned_data['user_type']}
             )
+            # Update user_type if profile already existed
+            if not created:
+                profile.user_type = self.cleaned_data['user_type']
+                profile.save()
         return user
 
