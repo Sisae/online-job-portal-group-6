@@ -60,7 +60,14 @@
                                 <li><a class="dropdown-item" href="{% url 'jobs:job_list' %}">My Jobs</a></li>
                                 <li><a class="dropdown-item" href="{% url 'applications:application_list' %}">Applications</a></li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a></li>
+                                <li>
+                                    <form method="post" action="{% url 'accounts:logout' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item btn-link" style="border: none; background: none; width: 100%; text-align: left;">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
                             </ul>
                         </li>
                     {% else %}

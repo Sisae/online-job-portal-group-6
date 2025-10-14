@@ -16,7 +16,21 @@ class JobListView(LoginRequiredMixin, ListView):
     paginate_by = 12
     
     def get_queryset(self):
-        # Only show jobs created by the current user
+        # Show all active jobs for job seekers to browse
+        if hasattr(self.request.user, 'profile') and self.request.user.profile.is_job_seeker:
+            return Job.objects.filter(is_active=True).order_by('-posted_date')
+        # Show only jobs created by the current user for employers
+        return Job.objects.filter(created_by=self.request.user).order_by('-posted_date')
+
+
+class MyJobsView(LoginRequiredMixin, ListView):
+    model = Job
+    template_name = 'jobs/my_jobs.html'
+    context_object_name = 'jobs'
+    paginate_by = 12
+    
+    def get_queryset(self):
+        # Only show jobs created by the current user (for employers)
         return Job.objects.filter(created_by=self.request.user).order_by('-posted_date')
 
 

@@ -23,6 +23,19 @@ class ApplicationListView(LoginRequiredMixin, ListView):
         ).order_by('-applied_date')
 
 
+class MyApplicationsView(LoginRequiredMixin, ListView):
+    model = Application
+    template_name = 'applications/my_applications.html'
+    context_object_name = 'applications'
+    paginate_by = 20
+    
+    def get_queryset(self):
+        # Show applications submitted by the current user (job seeker)
+        return Application.objects.filter(
+            applicant=self.request.user
+        ).order_by('-applied_date')
+
+
 class ApplicationDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Application
     template_name = 'applications/application_detail.html'

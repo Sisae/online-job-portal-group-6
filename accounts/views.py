@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import CreateView, UpdateView, DetailView, RedirectView
+from django.contrib.auth.views import LogoutView as BaseLogoutView
+from django.views.generic import CreateView, UpdateView, DetailView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import UserProfile
@@ -38,12 +39,13 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         return self.request.user.profile
 
 
-class LogoutView(RedirectView):
-    """Custom logout view that accepts GET requests and provides feedback."""
-    url = reverse_lazy('core:home')
+class LogoutView(BaseLogoutView):
+    """Custom logout view that maintains security while providing user feedback."""
     
-    def get(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            logout(request)
+            # Add message before logout (user context is still available)
             messages.success(request, 'You have been successfully logged out.')
-        return super().get(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
+
+
