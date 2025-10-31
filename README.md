@@ -88,6 +88,7 @@ For Heroku or similar platforms, consider adding:
 - `Procfile` for process management
 - `runtime.txt` for Python version specification
 - `whitenoise` for static file serving
+<<<<<<< HEAD
 
 ## Notifications (new)
 
@@ -116,3 +117,5 @@ For Heroku or similar platforms, consider adding:
   - `EMAIL_HOST_USER` (your sending email)
   - `EMAIL_HOST_PASSWORD` (your email app password)
 - Without these, emails won’t actually send.
+=======
+>>>>>>> 9030b895aaba431233f2d86f86d53ffd5681c3fa
