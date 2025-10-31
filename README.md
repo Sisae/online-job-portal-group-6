@@ -88,34 +88,35 @@ For Heroku or similar platforms, consider adding:
 - `Procfile` for process management
 - `runtime.txt` for Python version specification
 - `whitenoise` for static file serving
-<<<<<<< HEAD
 
-## Notifications (new)
+## Notifications
 
 ### What changed
 
 - We added a simple notifications feature to the site.
-- It can send emails now, and it’s set up so SMS can be added later.
+- It can send emails now, and it's set up so SMS can be added later.
 
 ### What it does now
 
 - Emails when your application status changes
-  - If an employer moves your application (like “Under Review” to “Interview”), you get an email showing the old and new status.
+  - If an employer moves your application (like "Under Review" to "Interview"), you get an email showing the old and new status.
 
 - Emails when a new job is posted
-  - When a new job is added, all job seekers with an email on file get a “New job posted” email.
+  - When a new job is added, all job seekers with an email on file get a "New job posted" email.
 
 ### How to try it out
 
 - Add an email to a test job seeker in the Admin.
 - Create a new job → the job seeker should get an alert email.
-- Change an application’s status → that applicant should get a status update email.
+- Change an application's status → that applicant should get a status update email.
 
 ### Note for sending real emails
 
-- Add your email settings in `jobportal_project/settings.py`:
+- Configure your email settings in the `.env` file:
+  - `EMAIL_HOST` (SMTP server, e.g., smtp-relay.brevo.com)
+  - `EMAIL_PORT` (usually 587)
+  - `EMAIL_USE_TLS=True`
   - `EMAIL_HOST_USER` (your sending email)
   - `EMAIL_HOST_PASSWORD` (your email app password)
-- Without these, emails won’t actually send.
-=======
->>>>>>> 9030b895aaba431233f2d86f86d53ffd5681c3fa
+  - `DEFAULT_FROM_EMAIL` (sender address)
+- Without these, emails won't actually send.
