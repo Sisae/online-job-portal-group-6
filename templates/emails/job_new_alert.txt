@@ -1,0 +1,13 @@
+A new job has been posted that may interest you:
+
+Title: {{ job.title }}
+Company: {{ company.name }}
+Location: {{ job.location }}{% if job.remote %} (Remote){% endif %}
+
+View this job:
+{{ job.get_absolute_url }}
+
+Good luck!
+Job Portal Team
+
+

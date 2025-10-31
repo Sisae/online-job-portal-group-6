@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Application Details - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>Application Details</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Applicant Information</h6>
+                        <p><strong>Name:</strong> {{ application.applicant.get_full_name|default:application.applicant.username }}</p>
+                        <p><strong>Email:</strong> {{ application.applicant.email }}</p>
+                        {% if application.applicant.profile.phone_number %}
+                            <p><strong>Phone:</strong> {{ application.applicant.profile.phone_number }}</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Job Information</h6>
+                        <p><strong>Position:</strong> {{ application.job.title }}</p>
+                        <p><strong>Company:</strong> {{ application.job.company.name }}</p>
+                        <p><strong>Location:</strong> {{ application.job.location }}</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Application Status</h6>
+                    <span class="badge bg-{{ application.get_status_display_class }} fs-6">
+                        {{ application.get_status_display }}
+                    </span>
+                    <p class="text-muted mt-1">
+                        Applied on {{ application.applied_date|date:"F d, Y" }} at {{ application.applied_date|time:"g:i A" }}
+                    </p>
+                </div>
+                
+                {% if application.cover_letter %}
+                    <div class="mb-3">
+                        <h6>Cover Letter</h6>
+                        <div class="border p-3 rounded">
+                            {{ application.cover_letter|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
+                
+                {% if application.resume %}
+                    <div class="mb-3">
+                        <h6>Resume</h6>
+                        <a href="{{ application.resume.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-download me-1"></i>Download Resume
+                        </a>
+                    </div>
+                {% endif %}
+                
+                {% if user.profile.is_employer and application.notes %}
+                    <div class="mb-3">
+                        <h6>Internal Notes</h6>
+                        <div class="border p-3 rounded bg-light">
+                            {{ application.notes|linebreaks }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="{% url 'applications:application_status_update' application.id %}" class="btn btn-warning w-100 mb-2">
+                    <i class="fas fa-edit me-1"></i>Update Status
+                </a>
+                <a href="{% url 'jobs:job_detail' application.job.slug %}" class="btn btn-outline-primary w-100 mb-2">
+                    <i class="fas fa-eye me-1"></i>View Job
+                </a>
+                <a href="{% url 'applications:application_list' %}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-arrow-left me-1"></i>Back to Applications
+                </a>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header">
+                <h6>Application Timeline</h6>
+            </div>
+            <div class="card-body">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <small class="text-muted">{{ application.applied_date|date:"M d, Y" }}</small>
+                        <p class="mb-1">Application submitted</p>
+                    </div>
+                    {% if application.status != 'applied' %}
+                        <div class="timeline-item">
+                            <small class="text-muted">{{ application.updated_at|date:"M d, Y" }}</small>
+                            <p class="mb-1">Status updated to {{ application.get_status_display }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

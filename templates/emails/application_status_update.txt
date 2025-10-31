@@ -1,0 +1,14 @@
+Hello {{ applicant.get_full_name|default:applicant.username }},
+
+The status of your application for the position "{{ job.title }}" at {{ job.company.name }} has changed.
+
+Previous status: {{ old_status }}
+New status: {{ new_status }}
+
+You can view your application here:
+{{ application.get_absolute_url }}
+
+Thank you,
+Job Portal Team
+
+

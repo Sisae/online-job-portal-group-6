@@ -1,0 +1,71 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Edit Company{% else %}Create Company{% endif %} - Job Portal{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="/static/css/company_profile.css">
+{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <h2>{% if object %}Edit Company Profile{% else %}Create Company Profile{% endif %}</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="input-field">
+            <input type="text" name="name" id="{{ form.name.id_for_label }}" value="{{ form.name.value|default:'' }}" required>
+            <label for="{{ form.name.id_for_label }}">Company Name *</label>
+        </div>
+        {% if form.name.errors %}
+            <div class="text-danger">{{ form.name.errors }}</div>
+        {% endif %}
+
+        <div class="input-field">
+            <input type="url" name="website" id="{{ form.website.id_for_label }}" value="{{ form.website.value|default:'' }}" placeholder="https://example.com">
+            <label for="{{ form.website.id_for_label }}">Website</label>
+        </div>
+        {% if form.website.errors %}
+            <div class="text-danger">{{ form.website.errors }}</div>
+        {% endif %}
+
+        <div class="input-field">
+            <input type="text" name="location" id="{{ form.location.id_for_label }}" value="{{ form.location.value|default:'' }}" required>
+            <label for="{{ form.location.id_for_label }}">Location *</label>
+        </div>
+        {% if form.location.errors %}
+            <div class="text-danger">{{ form.location.errors }}</div>
+        {% endif %}
+
+        <div class="input-field">
+            <input type="email" name="contact_email" id="{{ form.contact_email.id_for_label }}" value="{{ form.contact_email.value|default:'' }}" required>
+            <label for="{{ form.contact_email.id_for_label }}">Contact Email *</label>
+        </div>
+        {% if form.contact_email.errors %}
+            <div class="text-danger">{{ form.contact_email.errors }}</div>
+        {% endif %}
+
+        <div class="input-field">
+            <label for="{{ form.description.id_for_label }}" style="top:10px;left:0;transform:none;font-size:0.8rem;color:#fff;">Description</label>
+            <textarea name="description" id="{{ form.description.id_for_label }}" rows="4" style="width:100%;background:transparent;border:none;outline:none;font-size:16px;color:#fff;resize:vertical;">{{ form.description.value|default:'' }}</textarea>
+        </div>
+        {% if form.description.errors %}
+            <div class="text-danger">{{ form.description.errors }}</div>
+        {% endif %}
+
+        <div class="input-field" style="border:none;">
+            <label for="{{ form.logo.id_for_label }}" style="top:10px;left:0;transform:none;font-size:0.8rem;color:#fff;">Company Logo</label>
+            <input type="file" name="logo" id="{{ form.logo.id_for_label }}" accept="image/*" style="color:#fff;">
+        </div>
+        {% if form.logo.errors %}
+            <div class="text-danger">{{ form.logo.errors }}</div>
+        {% endif %}
+
+        <div class="forget">
+            <a href="{% url 'companies:my_company' %}">Cancel</a>
+            <button type="submit">
+                {% if object %}Update Company{% else %}Create Company{% endif %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

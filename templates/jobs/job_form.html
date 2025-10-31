@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if object %}Edit Job{% else %}Post a Job{% endif %} - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>{% if object %}Edit Job{% else %}Post a New Job{% endif %}</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="{{ form.title.id_for_label }}" class="form-label">Job Title *</label>
+                        <input type="text" class="form-control" name="title" id="{{ form.title.id_for_label }}" value="{{ form.title.value|default:'' }}" required>
+                        {% if form.title.errors %}
+                            <div class="text-danger">{{ form.title.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">Job Description *</label>
+                        <textarea class="form-control" name="description" id="{{ form.description.id_for_label }}" rows="6" required>{{ form.description.value|default:'' }}</textarea>
+                        {% if form.description.errors %}
+                            <div class="text-danger">{{ form.description.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.location.id_for_label }}" class="form-label">Location *</label>
+                                <input type="text" class="form-control" name="location" id="{{ form.location.id_for_label }}" value="{{ form.location.value|default:'' }}" required>
+                                {% if form.location.errors %}
+                                    <div class="text-danger">{{ form.location.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.job_type.id_for_label }}" class="form-label">Job Type *</label>
+                                <select class="form-select" name="job_type" id="{{ form.job_type.id_for_label }}" required>
+                                    <option value="">Select Job Type</option>
+                                    <option value="full-time" {% if form.job_type.value == 'full-time' %}selected{% endif %}>Full Time</option>
+                                    <option value="part-time" {% if form.job_type.value == 'part-time' %}selected{% endif %}>Part Time</option>
+                                    <option value="contract" {% if form.job_type.value == 'contract' %}selected{% endif %}>Contract</option>
+                                    <option value="internship" {% if form.job_type.value == 'internship' %}selected{% endif %}>Internship</option>
+                                    <option value="temporary" {% if form.job_type.value == 'temporary' %}selected{% endif %}>Temporary</option>
+                                </select>
+                                {% if form.job_type.errors %}
+                                    <div class="text-danger">{{ form.job_type.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.salary.id_for_label }}" class="form-label">Salary (Optional)</label>
+                                <input type="number" class="form-control" name="salary" id="{{ form.salary.id_for_label }}" value="{{ form.salary.value|default:'' }}" step="0.01" min="0">
+                                {% if form.salary.errors %}
+                                    <div class="text-danger">{{ form.salary.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.closing_date.id_for_label }}" class="form-label">Closing Date *</label>
+                                <input type="datetime-local" class="form-control" name="closing_date" id="{{ form.closing_date.id_for_label }}" value="{{ form.closing_date.value|default:'' }}" required>
+                                {% if form.closing_date.errors %}
+                                    <div class="text-danger">{{ form.closing_date.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" name="remote" id="{{ form.remote.id_for_label }}" {% if form.remote.value %}checked{% endif %}>
+                        <label class="form-check-label" for="{{ form.remote.id_for_label }}">
+                            Remote work available
+                        </label>
+                        {% if form.remote.errors %}
+                            <div class="text-danger">{{ form.remote.errors }}</div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'jobs:job_list' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            {% if object %}Update Job{% else %}Post Job{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

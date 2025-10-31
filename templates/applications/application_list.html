@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Applications - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Job Applications</h2>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-white btn-sm" style="background:#fff;color:#000;border:1px solid #ccc;" onclick="filterApplications('all')">All</button>
+                <button type="button" class="btn btn-white btn-sm" style="background:#fff;color:#000;border:1px solid #ccc;" onclick="filterApplications('applied')">Applied</button>
+                <button type="button" class="btn btn-white btn-sm" style="background:#fff;color:#000;border:1px solid #ccc;" onclick="filterApplications('under_review')">Under Review</button>
+                <button type="button" class="btn btn-white btn-sm" style="background:#fff;color:#000;border:1px solid #ccc;" onclick="filterApplications('interview')">Interview</button>
+                <button type="button" class="btn btn-white btn-sm" style="background:#fff;color:#000;border:1px solid #ccc;" onclick="filterApplications('offer')">Offer</button>
+                <button type="button" class="btn btn-white btn-sm" style="background:#fff;color:#000;border:1px solid #ccc;" onclick="filterApplications('rejected')">Rejected</button>
+            </div>
+        </div>
+        
+        {% if applications %}
+            <div class="row" id="applications-container">
+                {% for application in applications %}
+                    <div class="col-md-6 mb-3 application-card" data-status="{{ application.status }}">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title">
+                                        {{ application.applicant.get_full_name|default:application.applicant.username }}
+                                    </h5>
+                                    <span class="badge bg-{{ application.get_status_display_class }} status-badge">
+                                        {{ application.get_status_display }}
+                                    </span>
+                                </div>
+                                
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Applied for: {{ application.job.title }}
+                                </h6>
+                                
+                                <p class="card-text">
+                                    <i class="fas fa-map-marker-alt me-1"></i>{{ application.job.location }}
+                                    {% if application.job.remote %}<span class="badge bg-info ms-2">Remote</span>{% endif %}
+                                </p>
+                                
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Applied {{ application.applied_date|timesince }} ago
+                                    </small>
+                                </p>
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <a href="{% url 'applications:application_detail' application.id %}" class="btn btn-primary btn-sm">View Details</a>
+                                    <a href="{% url 'applications:application_status_update' application.id %}" class="btn btn-outline-warning btn-sm">Update Status</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <nav aria-label="Application pagination">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">First</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        
+                        <li class="page-item active">
+                            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                        </li>
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                <h4>No applications found</h4>
+                <p class="text-muted">No applications have been submitted for your jobs yet.</p>
+                <a href="{% url 'jobs:job_create' %}" class="btn btn-primary">Post a Job</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .btn.btn-white.active, .btn.btn-white:active {
+        background: #000 !important;
+        color: #fff !important;
+        border-color: #000 !important;
+    }
+</style>
+<script>
+function filterApplications(status) {
+    const cards = document.querySelectorAll('.application-card');
+    const buttons = document.querySelectorAll('.btn-group .btn');
+    // Update button states
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    // Filter cards
+    cards.forEach(card => {
+        if (status === 'all' || card.dataset.status === status) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+// Set initial active state
+document.addEventListener('DOMContentLoaded', function() {
+    const allButton = document.querySelector('.btn-group .btn:first-child');
+    if (allButton) {
+        allButton.classList.add('active');
+    }
+});
+</script>
+{% endblock %}
