@@ -1,95 +1,140 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block title %}{{ job.title }} - Job Portal{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-start">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Job Details -->
+    <div class="lg:col-span-2">
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md">
+            <!-- Header -->
+            <div class="p-6 border-b border-border-light dark:border-border-dark">
+                <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
                     <div>
-                        <h2>{{ job.title }}</h2>
-                        <h5 class="text-muted">{{ job.company.name }}</h5>
+                        <h2 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark">{{ job.title }}</h2>
+                        <a href="{% url 'companies:company_detail' job.company.id %}" class="text-lg text-muted-light dark:text-muted-dark hover:text-primary dark:hover:text-primary transition-colors">{{ job.company.name }}</a>
                     </div>
-                    <span class="badge bg-{{ job.job_type|default:'secondary' }} fs-6">{{ job.job_type|title }}</span>
+                    <span class="px-3 py-1 text-sm font-semibold rounded-full bg-primary/10 text-primary whitespace-nowrap">{{ job.get_job_type_display }}</span>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <p><i class="fas fa-map-marker-alt me-2"></i>{{ job.location }}</p>
-                        {% if job.remote %}
-                            <p><i class="fas fa-home me-2"></i>Remote Work Available</p>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-6">
-                        {% if job.salary %}
-                            <p><i class="fas fa-dollar-sign me-2"></i>${{ job.salary|floatformat:0 }}/year</p>
-                        {% endif %}
-                        <p><i class="fas fa-clock me-2"></i>Posted {{ job.posted_date|timesince }} ago</p>
-                    </div>
+            
+            <!-- Meta Info -->
+            <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4 text-muted-light dark:text-muted-dark">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-xl">location_on</span>
+                    <span>{{ job.location }}</span>
                 </div>
-                
-                <hr>
-                
-                <h5>Job Description</h5>
-                <div class="job-description">
-                    {{ job.description|linebreaks }}
+                {% if job.salary %}
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-xl">payments</span>
+                    <span>${{ job.salary|floatformat:0 }}/year</span>
                 </div>
-                
-                {% if job.closing_date %}
-                    <div class="alert alert-info mt-3">
-                        <i class="fas fa-calendar me-2"></i>Application deadline: {{ job.closing_date|date:"F d, Y" }}
-                    </div>
+                {% endif %}
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-xl">schedule</span>
+                    <span>Posted {{ job.posted_date|timesince }} ago</span>
+                </div>
+                {% if job.remote %}
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-xl">home_work</span>
+                    <span>Remote work available</span>
+                </div>
                 {% endif %}
             </div>
+
+            <!-- Description -->
+            <div class="p-6 border-t border-border-light dark:border-border-dark">
+                <h3 class="text-xl font-bold text-foreground-light dark:text-foreground-dark mb-4">Job Description</h3>
+                <div class="prose dark:prose-invert max-w-none text-foreground-light dark:text-foreground-dark">
+                    {{ job.description|linebreaks }}
+                </div>
+            </div>
+
+            <!-- Closing Date -->
+            {% if job.closing_date %}
+            <div class="p-6 border-t border-border-light dark:border-border-dark">
+                <div class="bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded-lg p-4 flex items-center gap-3">
+                    <span class="material-symbols-outlined">event_available</span>
+                    <span>Application deadline: <strong>{{ job.closing_date|date:"F d, Y" }}</strong></span>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
     
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5>Company Information</h5>
+    <!-- Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+        <!-- Company Info Card -->
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md">
+            <div class="p-6 border-b border-border-light dark:border-border-dark">
+                <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark">About {{ job.company.name }}</h4>
             </div>
-            <div class="card-body">
-                <div class="text-center mb-3">
-                    {% if job.company.logo %}
-                        <img src="{{ job.company.logo.url }}" class="img-fluid rounded" style="max-height: 100px;" alt="{{ job.company.name }} logo">
-                    {% else %}
-                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="height: 100px;">
-                            <i class="fas fa-building fa-2x text-white"></i>
-                        </div>
-                    {% endif %}
+            <div class="p-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-16 h-16 flex-shrink-0">
+                        {% if job.company.logo %}
+                            <img src="{{ job.company.logo.url }}" class="w-full h-full object-contain rounded-lg" alt="{{ job.company.name }} logo">
+                        {% else %}
+                            <div class="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-4xl text-gray-500">apartment</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-foreground-light dark:text-foreground-dark">{{ job.company.name }}</h5>
+                        <p class="text-sm text-muted-light dark:text-muted-dark">{{ job.company.location }}</p>
+                    </div>
                 </div>
                 
-                <h6>{{ job.company.name }}</h6>
-                <p class="text-muted">{{ job.company.location }}</p>
-                
-                {% if job.company.website %}
-                    <p><a href="{{ job.company.website }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                        <i class="fas fa-external-link-alt me-1"></i>Visit Website
-                    </a></p>
-                {% endif %}
-                
-                <a href="{% url 'companies:company_detail' job.company.id %}" class="btn btn-primary btn-sm w-100">
-                    View Company Profile
-                </a>
+                <div class="flex flex-col gap-3">
+                    <a href="{% url 'companies:company_detail' job.company.id %}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+                        View Company Profile
+                    </a>
+                    {% if job.company.website %}
+                    <a href="{{ job.company.website }}" target="_blank" rel="noopener noreferrer" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-base">open_in_new</span>
+                        Visit Website
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
-        
-        <div class="card mt-3">
-            <div class="card-body text-center">
-                {% if user == job.created_by %}
-                    <a href="{% url 'jobs:job_edit' job.slug %}" class="btn btn-warning btn-sm me-2">Edit Job</a>
-                    <a href="{% url 'jobs:job_delete' job.slug %}" class="btn btn-danger btn-sm me-2">Delete Job</a>
-                    <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-primary btn-sm">Back to Jobs</a>
+
+        <!-- Action Card -->
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md p-6">
+            {% if user.is_authenticated %}
+                {% if is_job_creator %}
+                    <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark mb-4">Manage Job</h4>
+                    <div class="flex flex-col gap-3">
+                        <a href="{% url 'jobs:job_edit' job.slug %}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">Edit Job</a>
+                        <a href="{% url 'jobs:job_delete' job.slug %}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">Delete Job</a>
+                    </div>
                 {% else %}
-                    <p class="text-muted mb-3">You can only view jobs you created.</p>
-                    <a href="{% url 'jobs:job_list' %}" class="btn btn-primary">Back to My Jobs</a>
+                    {% if has_applied %}
+                        <div class="text-center">
+                            <span class="material-symbols-outlined text-5xl text-green-500">check_circle</span>
+                            <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark mt-2">You've Applied</h4>
+                            <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Your application was submitted successfully.</p>
+                            <a href="{% url 'applications:my_applications' %}" class="mt-4 inline-block font-semibold text-primary hover:underline">View My Applications</a>
+                        </div>
+                    {% else %}
+                        <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark mb-4">Ready to Apply?</h4>
+                        <a href="{% url 'applications:application_create' job.slug %}" class="w-full text-center px-4 py-3 text-base font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+                            Apply Now
+                        </a>
+                    {% endif %}
                 {% endif %}
-            </div>
+            {% else %}
+                <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark mb-4">Interested?</h4>
+                <p class="text-sm text-muted-light dark:text-muted-dark mb-3">Log in or create an account to apply for this job.</p>
+                <div class="flex flex-col gap-3">
+                    <a href="{% url 'accounts:login' %}?next={{ request.path }}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Login to Apply</a>
+                    <a href="{% url 'accounts:signup' %}?next={{ request.path }}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">Sign Up</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
 {% endblock %}
+

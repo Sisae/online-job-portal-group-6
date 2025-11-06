@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Job Seeker Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1173d4",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+              "foreground-light": "#1f2937",
+              "foreground-dark": "#f9fafb",
+              "card-light": "#ffffff",
+              "card-dark": "#182431",
+              "border-light": "#e5e7eb",
+              "border-dark": "#374151",
+              "muted-light": "#6b7280",
+              "muted-dark": "#9ca3af",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "0.75rem",
+              xl: "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-foreground-light dark:text-foreground-dark">
+<div class="flex min-h-screen">
+<aside class="w-64 bg-card-light dark:bg-card-dark border-r border-border-light dark:border-border-dark flex flex-col p-4">
+<div class="flex items-center gap-3 p-4 mb-6">
+<img alt="Sophia Carter's profile picture" class="size-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB50r0XMrKwFO_kE78uOZtqAU6PgeoY79Dhcssyx7MVrh4DwI0SfwjbieJtZLVWfVTecio55lFllpTLVcSD93F4j2moxyvsk7QpxHQFY8WP5igqM4owhTNb9Mn-lNWhEpV-uA7g9cAZvFZ_l7IBldkuRsQvFjPDnSETVN-_V19NrzdSvtxrBvJVORenOQD_8Vhj9othWGtnZ3d-HdxbGEbDCOfFa9W4zClUiJaFJWvZhvvjdMmGVrsgJZyELM-HbCr4k5IzOHND1ss"/>
+<h1 class="text-base font-semibold text-foreground-light dark:text-foreground-dark">Sophia Carter</h1>
+</div>
+<nav class="flex flex-col gap-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground-light dark:text-foreground-dark hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-sm font-medium">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white" href="#">
+<span class="material-symbols-outlined !font-bold">work</span>
+<span class="text-sm font-bold">My Applications</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground-light dark:text-foreground-dark hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="text-sm font-medium">Saved Jobs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground-light dark:text-foreground-dark hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-sm font-medium">Profile</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-foreground-light dark:text-foreground-dark hover:bg-primary/10 dark:hover:bg-primary/20" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 p-8">
+<div class="max-w-7xl mx-auto">
+<header class="mb-8">
+<h1 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark">My Applications</h1>
+</header>
+<div class="mb-6">
+<div class="border-b border-border-light dark:border-border-dark flex items-center gap-8">
+<a class="py-3 border-b-2 border-primary text-primary text-sm font-semibold" href="#">All</a>
+<a class="py-3 border-b-2 border-transparent text-muted-light dark:text-muted-dark hover:text-primary hover:border-primary transition-colors text-sm font-medium" href="#">Active</a>
+<a class="py-3 border-b-2 border-transparent text-muted-light dark:text-muted-dark hover:text-primary hover:border-primary transition-colors text-sm font-medium" href="#">Archived</a>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark rounded-lg shadow-sm border border-border-light dark:border-border-dark overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-background-light dark:bg-background-dark/50">
+<tr>
+<th class="p-4 text-sm font-semibold text-muted-light dark:text-muted-dark">Job Title</th>
+<th class="p-4 text-sm font-semibold text-muted-light dark:text-muted-dark">Company</th>
+<th class="p-4 text-sm font-semibold text-muted-light dark:text-muted-dark">Status</th>
+<th class="p-4 text-sm font-semibold text-muted-light dark:text-muted-dark">Date Applied</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-light dark:divide-border-dark">
+<tr>
+<td class="p-4 text-sm font-medium text-foreground-light dark:text-foreground-dark">Software Engineer</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">Tech Innovators Inc.</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">Applied</span>
+</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">2023-08-15</td>
+</tr>
+<tr>
+<td class="p-4 text-sm font-medium text-foreground-light dark:text-foreground-dark">Product Manager</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">Global Solutions Ltd.</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-600 dark:text-yellow-400">Interviewing</span>
+</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">2023-08-10</td>
+</tr>
+<tr>
+<td class="p-4 text-sm font-medium text-foreground-light dark:text-foreground-dark">Data Analyst</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">Data Driven Corp.</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500/10 text-red-600 dark:text-red-400">Rejected</span>
+</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">2023-08-05</td>
+</tr>
+<tr>
+<td class="p-4 text-sm font-medium text-foreground-light dark:text-foreground-dark">UX Designer</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">Creative Minds Agency</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">Applied</span>
+</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">2023-07-28</td>
+</tr>
+<tr>
+<td class="p-4 text-sm font-medium text-foreground-light dark:text-foreground-dark">Marketing Specialist</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">Marketing Masters Co.</td>
+<td class="p-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-600 dark:text-green-400">Offer Received</span>
+</td>
+<td class="p-4 text-sm text-muted-light dark:text-muted-dark">2023-07-20</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="flex items-center justify-center mt-6">
+<nav aria-label="Pagination" class="flex items-center gap-2">
+<a class="flex items-center justify-center size-9 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 text-muted-light dark:text-muted-dark" href="#">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</a>
+<a class="flex items-center justify-center size-9 rounded-lg bg-primary text-white text-sm font-bold" href="#">1</a>
+<a class="flex items-center justify-center size-9 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 text-muted-light dark:text-muted-dark text-sm" href="#">2</a>
+<a class="flex items-center justify-center size-9 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 text-muted-light dark:text-muted-dark text-sm" href="#">3</a>
+<span class="flex items-center justify-center size-9 text-muted-light dark:text-muted-dark">...</span>
+<a class="flex items-center justify-center size-9 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 text-muted-light dark:text-muted-dark text-sm" href="#">10</a>
+<a class="flex items-center justify-center size-9 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20 text-muted-light dark:text-muted-dark" href="#">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

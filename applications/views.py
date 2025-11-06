@@ -10,6 +10,47 @@ from .models import Application
 from .forms import ApplicationForm, ApplicationStatusForm
 
 
+class ApplicationCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Application
+    form_class = ApplicationForm
+    template_name = 'applications/application_form.html'
+
+    def test_func(self):
+        return self.request.user.profile.is_job_seeker
+
+    def get_success_url(self):
+        return reverse_lazy('applications:application_detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['job'] = get_object_or_404(Job, slug=self.kwargs['job_slug'])
+        return context
+
+    def get_initial(self):
+        initial = super().get_initial()
+        # Pre-fill the resume from the user's profile if it exists
+        if self.request.user.profile.resume:
+            initial['resume'] = self.request.user.profile.resume
+        return initial
+
+    def form_valid(self, form):
+        job = get_object_or_404(Job, slug=self.kwargs['job_slug'])
+        
+        if Application.objects.filter(job=job, applicant=self.request.user).exists():
+            messages.warning(self.request, 'You have already applied for this job.')
+            return redirect('jobs:job_detail', slug=job.slug)
+
+        form.instance.applicant = self.request.user
+        form.instance.job = job
+        
+        # If no resume is uploaded in the form, use the one from the profile
+        if not form.cleaned_data.get('resume') and self.request.user.profile.resume:
+            form.instance.resume = self.request.user.profile.resume
+
+        messages.success(self.request, 'Your application has been submitted successfully!')
+        return super().form_valid(form)
+
+
 class ApplicationListView(LoginRequiredMixin, ListView):
     model = Application
     template_name = 'applications/application_list.html'
@@ -18,9 +59,15 @@ class ApplicationListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         # Show applications for jobs created by this employer
-        return Application.objects.filter(
+        queryset = Application.objects.filter(
             job__created_by=self.request.user
         ).order_by('-applied_date')
+
+        job_slug = self.request.GET.get('job')
+        if job_slug:
+            queryset = queryset.filter(job__slug=job_slug)
+        
+        return queryset
 
 
 class MyApplicationsView(LoginRequiredMixin, ListView):
@@ -43,7 +90,8 @@ class ApplicationDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView)
     
     def test_func(self):
         application = self.get_object()
-        return self.request.user == application.job.created_by
+        return (self.request.user == application.applicant or 
+                self.request.user == application.job.created_by)
 
 
 

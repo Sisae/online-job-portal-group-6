@@ -3,55 +3,58 @@
 {% block title %}My Applications - Job Portal{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h2>My Job Applications</h2>
-        
-        {% if applications %}
-            <div class="row">
-                {% for application in applications %}
-                    <div class="col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <h5 class="card-title">{{ application.job.title }}</h5>
-                                    <span class="badge bg-{{ application.get_status_display_class }} status-badge">
-                                        {{ application.get_status_display }}
-                                    </span>
-                                </div>
-                                
-                                <h6 class="card-subtitle mb-2 text-muted">{{ application.job.company.name }}</h6>
-                                
-                                <p class="card-text">
-                                    <i class="fas fa-map-marker-alt me-1"></i>{{ application.job.location }}
-                                    {% if application.job.remote %}<span class="badge bg-info ms-2">Remote</span>{% endif %}
-                                </p>
-                                
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        Applied {{ application.applied_date|timesince }} ago
-                                    </small>
-                                </p>
-                                
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <a href="{% url 'applications:application_detail' application.id %}" class="btn btn-primary btn-sm">View Details</a>
-                                    <a href="{% url 'jobs:job_detail' application.job.slug %}" class="btn btn-outline-primary btn-sm">View Job</a>
-                                </div>
-                            </div>
-                        </div>
+<div>
+    <h2 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark mb-6">My Job Applications</h2>
+    
+    {% if applications %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for application in applications %}
+                <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md p-5 flex flex-col">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-bold text-lg text-foreground-light dark:text-foreground-dark">{{ application.job.title }}</h3>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full 
+                            {% if application.status == 'applied' %}bg-blue-100 text-blue-800
+                            {% elif application.status == 'under_review' %}bg-yellow-100 text-yellow-800
+                            {% elif application.status == 'interview' %}bg-purple-100 text-purple-800
+                            {% elif application.status == 'offered' %}bg-green-100 text-green-800
+                            {% elif application.status == 'rejected' %}bg-red-100 text-red-800
+                            {% else %}bg-gray-100 text-gray-800{% endif %}">
+                            {{ application.get_status_display }}
+                        </span>
                     </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="text-center py-5">
-                <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
-                <h4>No applications yet</h4>
-                <p class="text-muted">Start applying for jobs to see your applications here.</p>
-                <a href="{% url 'jobs:job_list' %}" class="btn btn-primary">Browse Jobs</a>
-            </div>
-        {% endif %}
-    </div>
+                    
+                    <p class="text-sm text-muted-light dark:text-muted-dark mb-1 font-semibold">{{ application.job.company.name }}</p>
+                    <p class="text-sm text-muted-light dark:text-muted-dark mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-base">location_on</span>
+                        {{ application.job.location }}
+                        {% if application.job.remote %}
+                            <span class="ml-2 px-2 py-0.5 text-xs font-semibold rounded-full bg-cyan-100 text-cyan-800">Remote</span>
+                        {% endif %}
+                    </p>
+                    
+                    <div class="flex-grow"></div>
+
+                    <div class="text-xs text-muted-light dark:text-muted-dark mb-4">
+                        Applied {{ application.applied_date|timesince }} ago
+                    </div>
+                    
+                    <div class="flex justify-between items-center gap-2">
+                        <a href="{% url 'applications:application_detail' application.id %}" class="flex-1 text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">View Details</a>
+                        <a href="{% url 'jobs:job_detail' application.job.slug %}" class="flex-1 text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">View Job</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-16 bg-card-light dark:bg-card-dark rounded-lg">
+            <span class="material-symbols-outlined text-6xl text-muted-light dark:text-muted-dark mb-4">folder_off</span>
+            <h3 class="text-2xl font-bold text-foreground-light dark:text-foreground-dark">No Applications Yet</h3>
+            <p class="text-muted-light dark:text-muted-dark mt-2">Start applying for jobs to see your applications here.</p>
+            <a href="{% url 'jobs:job_list' %}" class="mt-6 inline-block px-6 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Browse Jobs</a>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}
+
 
 

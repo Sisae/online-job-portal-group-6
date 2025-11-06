@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sign Up - CareerConnect</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#1173d4",
+          "background-light": "#f6f7f8",
+          "background-dark": "#101922",
+        },
+        fontFamily: {
+          display: ["Inter"]
+        },
+        borderRadius: {
+          DEFAULT: "0.25rem",
+          lg: "0.5rem",
+          xl: "0.75rem",
+          full: "9999px"
+        },
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+
+  /* Fade-in animations */
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { opacity: 0; animation: fadeIn 1s ease forwards; }
+  .fade-in-delay { animation-delay: 0.3s; }
+  .fade-in-delay-2 { animation-delay: 0.6s; }
+  .fade-in-delay-3 { animation-delay: 0.9s; }
+
+  /* Glow animation for logo only */
+  @keyframes glow {
+    0%, 100% { filter: drop-shadow(0 0 6px #1173d4) drop-shadow(0 0 12px #4aa1f0); }
+    50% { filter: drop-shadow(0 0 20px #1173d4) drop-shadow(0 0 40px #4aa1f0); }
+  }
+  .glow-logo svg {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  /* Blur to clear background */
+  @keyframes blurFade {
+    0% { filter: blur(8px) brightness(80%); opacity: 0.8; }
+    100% { filter: blur(0px) brightness(100%); opacity: 1; }
+  }
+  .blur-animation {
+    animation: blurFade 1.5s ease forwards;
+  }
+
+  /* Continuous water-flow split bar */
+  @keyframes waterFlow {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 200%; }
+  }
+  .animate-water {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: repeating-linear-gradient(
+      to bottom,
+      #1173d4 0%,
+      #4aa1f0 25%,
+      #1173d4 50%
+    );
+    background-size: 100% 200%;
+    animation: waterFlow 1.5s linear infinite;
+  }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+
+<div class="flex min-h-screen">
+
+  <!-- Left Side: Form + Logo -->
+  <div class="w-1/2 flex flex-col justify-center px-12 bg-white dark:bg-background-dark relative border-r-2 border-blue-500">
+
+    <!-- Logo -->
+    <div class="flex flex-col items-start gap-2 mb-6 fade-in glow-logo">
+      <div class="flex items-center gap-3">
+        <svg class="h-10 w-10 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"/>
+        </svg>
+        <h1 class="text-2xl font-bold text-primary">CareerConnect</h1>
+      </div>
+      <div class="border-b-2 border-primary w-full mt-1"></div>
+    </div>
+
+    <!-- Heading -->
+    <div class="mb-6 fade-in fade-in-delay">
+      <h2 class="text-3xl font-bold text-primary">Create Your Account</h2>
+      <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Sign up to start applying for your dream jobs</p>
+    </div>
+
+    <!-- Form -->
+    <form class="space-y-4 fade-in fade-in-delay-2">
+      <div>
+        <label for="fullname" class="block text-sm font-bold text-primary">Full Name:</label>
+        <input type="text" id="fullname" name="fullname" placeholder="John Doe" required
+          class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white"/>
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-bold text-primary">Email Address:</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required
+          class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white"/>
+      </div>
+      <div>
+        <label for="password" class="block text-sm font-bold text-primary">Password:</label>
+        <input type="password" id="password" name="password" required
+          class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white"/>
+      </div>
+      <div>
+        <label for="confirm-password" class="block text-sm font-bold text-primary">Confirm Password:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required
+          class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white"/>
+      </div>
+      <div>
+        <label for="country" class="block text-sm font-bold text-primary">Country:</label>
+        <input type="text" id="country" name="country" placeholder="Zimbabwe" required
+          class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white"/>
+      </div>
+      <div>
+        <label for="city" class="block text-sm font-bold text-primary">City / State:</label>
+        <input type="text" id="city" name="city" placeholder="Bulawayo" required
+          class="mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white"/>
+      </div>
+      <div class="flex items-center">
+        <input id="terms" name="terms" type="checkbox" required
+          class="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary dark:border-slate-700"/>
+        <label for="terms" class="ml-2 text-sm text-slate-600 dark:text-slate-400">
+          I agree to the <a href="#" class="text-primary hover:underline">Terms & Conditions</a>
+        </label>
+      </div>
+      <button type="submit" class="w-full rounded-lg bg-primary px-4 py-2 text-white font-semibold hover:bg-primary/90 transition-colors">
+        Sign Up
+      </button>
+    </form>
+
+    <p class="mt-4 text-sm text-slate-600 dark:text-slate-400">
+      Already have an account?
+      <a href="login.html" class="text-primary font-medium hover:underline">Log In</a>
+    </p>
+  </div>
+
+  <!-- Right Side: Background with flowing water bar -->
+  <div class="w-1/2 relative overflow-hidden">
+    <!-- Animated flowing split bar -->
+    <div class="animate-water"></div>
+    <!-- Background image -->
+    <img src="background.jpeg" alt="Career Background" class="absolute inset-0 w-full h-full object-cover blur-animation"/>
+  </div>
+
+</div>
+
+</body>
+</html>

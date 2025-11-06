@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareerConnect</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1173d4",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101922",
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex flex-col min-h-screen">
+<header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-background-light/10 dark:border-background-dark/10">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2 text-slate-800 dark:text-white" href="#">
+<svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+<span class="text-xl font-bold">CareerConnect</span>
+</a>
+<nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="job_platform_home.html">Home</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="job_list.html">Jobs</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Companies</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Salaries</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors" href="#">Career Advice</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden sm:inline-flex items-center justify-center h-10 px-4 rounded-lg bg-primary/10 dark:bg-primary/20 text-primary text-sm font-bold hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+              Post a Job
+            </button>
+<button class="relative rounded-full p-2 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50 transition-colors">
+<svg fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"></path>
+</svg>
+</button>
+<button class="rounded-full">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApMbgHpeSttU7I5fYZfB_0rkODFRjGuCk8dDkmlMQH5zXMcc-L0wMTGpw-6STrd9nu5NlhGe-aSUCj4FrDAaZHxClqE2L1Gpqd3dJL2SXeoQAye0-sUNwnbU3GzC81Wy25KyfZivPlD7lOkossgp-n-omjbt5ILLhTkUQpUrlmIZBn4du7daJiaDtK3KEaktY-7XaMBpw0YzEN8loz6p2ALpGnLNoRWX6aLUMW_Lyq6Fp9fD-7Rn7xL0P1N6xLFMP-YyNsGxyF1nw");'></div>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<section class="relative">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: linear-gradient(rgba(16, 25, 34, 0.4) 0%, rgba(16, 25, 34, 0.7) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuDRMI87xIUTQmn73niHXnudMYcCWfLTm8UC_qg4AJ0uUjKDN1AIbAyNvJRBd0HmkV10mWCurBSh0nfNCaneNb5D9Z27QgUijtbCuJFxvYPVnQWhQrIwVT4C2Hkiz9PGjajErx22M4OUVRGecmX-tzb1HDRTTAnZpqphiI3Fq7w5i9QB9rosYcTq-T6iVpEniRrcd_NWzMMKM6pA-kvvQYUZMSqCubXej-7r_yf_zXwMJRlIM_muV6-xvJRcdeJzqTraWl_-hFV0Bng");'></div>
+<div class="relative container mx-auto px-4 sm:px-6 lg:px-8 py-32 sm:py-40 text-center text-white">
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">Find the right job or internship for you</h1>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-slate-200">Search from millions of job openings and internships to find the perfect fit for your career goals.</p>
+<div class="mt-8 max-w-xl mx-auto">
+<form class="relative">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<svg class="h-5 w-5 text-slate-400" fill="currentColor" height="20px" viewBox="0 0 256 256" width="20px" xmlns="http://www.w3.org/2000/svg">
+<path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+</svg>
+</div>
+<input class="w-full h-14 pl-12 pr-32 rounded-lg bg-white/90 dark:bg-background-dark/80 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary focus:outline-none transition-all" placeholder="Search job titles or companies" type="search"/>
+<button class="absolute inset-y-0 right-0 m-2 flex items-center justify-center h-10 px-6 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors" type="submit">
+                Search
+              </button>
+</form>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-24 bg-background-light dark:bg-background-dark">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<h2 class="text-3xl font-bold tracking-tight text-center text-slate-800 dark:text-white">Featured Job Categories</h2>
+<div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+<a class="group block" href="#">
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Software Engineering" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3cGfXyQD-W15DqAlX2bR5ReiV92duMLvo_p9ynTLCOiUe2oeJ3rV5u1ekaZGuCo52Jx-jnyu5Wrbw1pSX6M5NucCUnvqDp713-E5xhYBNQ9ScUd5AU0VyLX57BDfP6GuVsoVWHzh_Dcxjlk8F1UHcC4V3WhF4V9Bh7E_04apgv5i-Lknp9Euul5lsofjaPlxhr4ccWi_kds5JKqb0NvHI-Jywwssr1hZn_BAXnE3tFR-anL6h6GIv9c8y8l2aluFhv6WVWtWxz9A"/>
+</div>
+<p class="mt-3 text-base font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary dark:group-hover:text-primary transition-colors">Software Engineering</p>
+</a>
+<a class="group block" href="#">
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Data Science" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjsZg5iZzSHBZ9mCKBe1bGjll_sAUqSQ4drSv_jvIg4xXV9_6izM8OYSldRcQ9s3o92WF2l2V4INfKm8vk6IO-QtDXDKQpS2JlA-2ilBVqdOXuMJzx1Hzd_fuJSo5m3dHJam5V58c4TWC0FNjyUoiygiDTAxqPcPYxQVvpMn6JZgSe5NuKljSRyRMUMAneKwYPpUGqRgvxDwWzz45FyKr4rtSGsfwbGray1XFFXL5P4IshVtZFX2UBu5ldL-pUXt0m9jBt9iu-kJ0"/>
+</div>
+<p class="mt-3 text-base font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary dark:group-hover:text-primary transition-colors">Data Science</p>
+</a>
+<a class="group block" href="#">
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Marketing" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDv1gNkKFDdiszX1UtMGnhul5Fzeo3mAxDdGEtluG3G3qJEhvKq3VGhxg2SWazgo7MmkAAJYqX4JJDfBeRSvCf4Sqj6Gnn1BvcRpaLd0ABBQTevaa4JV5WSFxA5CDeaqch73tv5yHraJfokTl4NHLHBRhb8JuesrfEzCfHnuPODsX01kSK9356F_1x-0ODJ1nzidvvHO98igZOi2KeoudHSdvve25o7PRyTgmv3KHpy3e8P4UiKzx-gq464MfJec014IGQsAfIBFu0"/>
+</div>
+<p class="mt-3 text-base font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary dark:group-hover:text-primary transition-colors">Marketing</p>
+</a>
+<a class="group block" href="#">
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Product Management" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp8Z4bH8VT2WNBaldJeo8_gXDLxocEl_kOgpk-bAs0dQKz9zR6KtrEbOig6GQPTo3Fvqk-DjBgrBafJiITAs-nOEeas6TEnYekBt0eTLubnSKESK_nraNJ1ZBiQtWtH1nlmXEsHjmlzYZqXFY6_ILGhkl0xsFoJswvZeVYZLxFdkCDbMdqSM0dZGeey3EoL9ditsYMRqYNSyTPw8WLjhMfY_jTHRtnEkDCllV8Ucz_NWLFU2b2LUo8dsk6UO0jfbRHwiM2obqtBlw"/>
+</div>
+<p class="mt-3 text-base font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary dark:group-hover:text-primary transition-colors">Product Management</p>
+</a>
+<a class="group block" href="#">
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Sales" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9VejWncK97VSWtJj3yhvARXfVCQXY0t-c_WWnx7yX_EJ2DjhRHtjSofK0vo7EbUYBY5MiWDDrsr_pIDcgkVu0vkuACAt8mv5GeriDoKW4xDFWvR_kfqRzboNn1hzxS4iDt6UQ0GFlHXQRcZ6naSju13XSQYBvVx7sTt0a9nTQyGjeKabyRc_lD5Y8nt8H4ZsQYh04t11J5oB1nMFHd5CQswhILf5lkNJmd93eQaxcGrRSzd3_pO9V3bgiV7aCo2bUsQbsljr4_nc"/>
+</div>
+<p class="mt-3 text-base font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary dark:group-hover:text-primary transition-colors">Sales</p>
+</a>
+<a class="group block" href="#">
+<div class="aspect-square w-full overflow-hidden rounded-xl">
+<img alt="Customer Service" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCcqITt3JepXiMAsXyOCcM-3vDLBybMV__RMvcHcngFXG8quNwnSB51WmuF0AwhJ3kjIB-J6KBM9ANkYAhM0EKAad9NOBpxXnsJBkXf2aqPUWybZOPv7CmFcHrJ3qjWxTC5JIrBnZmw0VKDPNTEW2ifqI4ltmZQ15ZuSZYs9zlvK4GUCYpXxP6eDlMQx9EYFEnGHg06jRpl5dlpEzSiTNRJSU803i1AJtOPXVuK3J0347suwLhACIG49OYjEczxaD5zs1i8WerVjI"/>
+</div>
+<p class="mt-3 text-base font-semibold text-slate-700 dark:text-slate-200 group-hover:text-primary dark:group-hover:text-primary transition-colors">Customer Service</p>
+</a>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-24 bg-background-light dark:bg-background-dark/50">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<h2 class="text-3xl font-bold tracking-tight text-slate-800 dark:text-white">Looking for a job?</h2>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-300">Explore thousands of job openings across various industries and locations. Find your dream job today!</p>
+<div class="mt-8">
+<a class="inline-flex items-center justify-center h-12 px-8 rounded-lg bg-primary text-white text-base font-bold hover:bg-primary/90 transition-colors" href="#">
+              Find Jobs
+            </a>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-24 bg-background-light dark:bg-background-dark">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<h2 class="text-3xl font-bold tracking-tight text-slate-800 dark:text-white">Hiring? Find the best talent.</h2>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-slate-600 dark:text-slate-300">Connect with qualified candidates and fill your open positions quickly and efficiently.</p>
+<div class="mt-8">
+<a class="inline-flex items-center justify-center h-12 px-8 rounded-lg bg-primary text-white text-base font-bold hover:bg-primary/90 transition-colors" href="#">
+                    Post a Job
+                </a>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-slate-800">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">About Us</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary dark:hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2024 CareerConnect. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

@@ -7,7 +7,7 @@ from .models import UserProfile
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['user_type', 'phone_number', 'bio', 'location', 'profile_picture']
+        fields = ['user_type', 'phone_number', 'location', 'bio', 'profile_picture', 'resume']
         widgets = {
             'bio': forms.Textarea(attrs={'rows': 4}),
         }
@@ -21,7 +21,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'user_type')
+        fields = ('username', 'first_name', 'last_name', 'email')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -30,14 +30,9 @@ class CustomUserCreationForm(UserCreationForm):
         user.last_name = self.cleaned_data['last_name']
         if commit:
             user.save()
-            # Get or create user profile (signal might have already created it)
-            profile, created = UserProfile.objects.get_or_create(
-                user=user,
-                defaults={'user_type': self.cleaned_data['user_type']}
-            )
-            # Update user_type if profile already existed
-            if not created:
-                profile.user_type = self.cleaned_data['user_type']
-                profile.save()
+            # The signal should create the profile, but we use get_or_create to be safe
+            profile, created = UserProfile.objects.get_or_create(user=user)
+            profile.user_type = self.cleaned_data['user_type']
+            profile.save()
         return user
 

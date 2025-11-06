@@ -1,79 +1,82 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block title %}Edit Profile - Job Portal{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg rounded-4 border-0" style="background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);">
-                <div class="card-header bg-transparent border-0">
-                    <h3 class="text-white">Edit Profile</h3>
+<div class="max-w-2xl mx-auto">
+    <div class="bg-card-light dark:bg-card-dark p-8 rounded-xl shadow-md">
+        <h2 class="text-3xl font-bold text-foreground-light dark:text-foreground-dark mb-6">Edit Profile</h2>
+        
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <div>
+                <label for="{{ form.user_type.id_for_label }}" class="block text-sm font-medium text-muted-light dark:text-muted-dark mb-1">Account Type</label>
+                {% render_field form.user_type class="w-full px-4 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" %}
+                {% if form.user_type.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.user_type.errors|first }}</p>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="{{ form.phone_number.id_for_label }}" class="block text-sm font-medium text-muted-light dark:text-muted-dark mb-1">Phone Number</label>
+                    {% render_field form.phone_number class="w-full px-4 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" placeholder="e.g., +1234567890" %}
+                    {% if form.phone_number.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.phone_number.errors|first }}</p>
+                    {% endif %}
                 </div>
-                <div class="card-body text-white">
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="{{ form.user_type.id_for_label }}" class="form-label">Account Type</label>
-                                <select name="{{ form.user_type.name }}" id="{{ form.user_type.id_for_label }}" class="form-control bg-transparent text-white border-light">
-                                    {% for value, label in form.user_type.field.choices %}
-                                        <option value="{{ value }}" {% if value == form.user_type.value %}selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                                {% if form.user_type.errors %}
-                                    <div class="text-danger">{{ form.user_type.errors }}</div>
-                                {% endif %}
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
-                                <input type="text" name="{{ form.phone_number.name }}" id="{{ form.phone_number.id_for_label }}" value="{{ form.phone_number.value }}" class="form-control bg-transparent text-white border-light">
-                                {% if form.phone_number.errors %}
-                                    <div class="text-danger">{{ form.phone_number.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="{{ form.location.id_for_label }}" class="form-label">Location</label>
-                            <input type="text" name="{{ form.location.name }}" id="{{ form.location.id_for_label }}" value="{{ form.location.value }}" class="form-control bg-transparent text-white border-light">
-                            {% if form.location.errors %}
-                                <div class="text-danger">{{ form.location.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.bio.id_for_label }}" class="form-label">Bio</label>
-                            <textarea name="{{ form.bio.name }}" id="{{ form.bio.id_for_label }}" class="form-control bg-transparent text-white border-light">{{ form.bio.value }}</textarea>
-                            {% if form.bio.errors %}
-                                <div class="text-danger">{{ form.bio.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="{{ form.profile_picture.id_for_label }}" class="form-label">Profile Picture</label>
-                            <input type="file" name="{{ form.profile_picture.name }}" id="{{ form.profile_picture.id_for_label }}" class="form-control bg-transparent text-white border-light">
-                            {% if form.profile_picture.errors %}
-                                <div class="text-danger">{{ form.profile_picture.errors }}</div>
-                            {% endif %}
-                        </div>
-
-                        <div class="d-flex justify-content-between mt-4">
-                            <a href="{% url 'accounts:profile' %}" class="btn btn-outline-light rounded-pill">Cancel</a>
-                            <button type="submit" class="btn btn-primary rounded-pill">Update Profile</button>
-                        </div>
-                    </form>
+                <div>
+                    <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-muted-light dark:text-muted-dark mb-1">Location</label>
+                    {% render_field form.location class="w-full px-4 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" placeholder="e.g., San Francisco, CA" %}
+                    {% if form.location.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.location.errors|first }}</p>
+                    {% endif %}
                 </div>
             </div>
-        </div>
+
+            <div>
+                <label for="{{ form.bio.id_for_label }}" class="block text-sm font-medium text-muted-light dark:text-muted-dark mb-1">Bio</label>
+                {% render_field form.bio class="w-full px-4 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" rows="4" placeholder="Tell us a little about yourself..." %}
+                {% if form.bio.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.bio.errors|first }}</p>
+                {% endif %}
+            </div>
+
+            <div>
+                <label for="{{ form.profile_picture.id_for_label }}" class="block text-sm font-medium text-muted-light dark:text-muted-dark mb-1">Profile Picture</label>
+                <div class="flex items-center gap-4">
+                    {% if form.instance.profile_picture %}
+                    <img src="{{ form.instance.profile_picture.url }}" class="size-16 rounded-full object-cover" alt="Current profile picture">
+                    {% endif %}
+                    {% render_field form.profile_picture class="block w-full text-sm text-muted-light dark:text-muted-dark file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" %}
+                </div>
+                {% if form.profile_picture.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.profile_picture.errors|first }}</p>
+                {% endif %}
+            </div>
+
+            {% if form.instance.is_seeker %}
+            <div>
+                <label for="{{ form.resume.id_for_label }}" class="block text-sm font-medium text-muted-light dark:text-muted-dark mb-1">Resume</label>
+                <div class="flex items-center gap-4">
+                    {% if form.instance.resume %}
+                    <a href="{{ form.instance.resume.url }}" target="_blank" class="text-primary hover:underline text-sm">View Current Resume</a>
+                    {% endif %}
+                    {% render_field form.resume class="block w-full text-sm text-muted-light dark:text-muted-dark file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" %}
+                </div>
+                {% if form.resume.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.resume.errors|first }}</p>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="flex items-center justify-end gap-4 pt-4">
+                <a href="{% url 'accounts:profile' %}" class="px-6 py-2 text-sm font-semibold rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Cancel</a>
+                <button type="submit" class="px-6 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Update Profile</button>
+            </div>
+        </form>
     </div>
 </div>
-
-<style>
-    .text-danger {
-        font-size: 0.875rem;
-    }
-</style>
 {% endblock %}

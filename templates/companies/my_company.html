@@ -4,63 +4,60 @@
 
 {% block content %}
 {% if no_company %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3>Create Company Profile</h3>
-            </div>
-            <div class="card-body text-center">
-                <i class="fas fa-building fa-3x text-muted mb-3"></i>
-                <h4>No Company Profile Found</h4>
-                <p class="text-muted">You need to create a company profile before you can post jobs.</p>
-                <a href="{% url 'companies:company_create' %}" class="btn btn-primary">Create Company Profile</a>
-            </div>
-        </div>
+<div class="max-w-2xl mx-auto mt-10">
+    <div class="text-center py-16 bg-card-light dark:bg-card-dark rounded-lg shadow-md">
+        <span class="material-symbols-outlined text-6xl text-muted-light dark:text-muted-dark mb-4">domain_disabled</span>
+        <h3 class="text-2xl font-bold text-foreground-light dark:text-foreground-dark">No Company Profile Found</h3>
+        <p class="text-muted-light dark:text-muted-dark mt-2">You need to create a company profile before you can post jobs.</p>
+        <a href="{% url 'companies:company_create' %}" class="mt-6 inline-block px-6 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Create Company Profile</a>
     </div>
 </div>
 {% else %}
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h4>Company Profile</h4>
-                <a href="{% url 'companies:company_edit' company.id %}" class="btn btn-outline-primary btn-sm">Edit Company</a>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Content -->
+    <div class="lg:col-span-2 space-y-8">
+        <!-- Company Profile Card -->
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md">
+            <div class="p-6 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+                <h3 class="text-xl font-bold text-foreground-light dark:text-foreground-dark">Company Profile</h3>
+                <a href="{% url 'companies:company_edit' company.id %}" class="px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">Edit Company</a>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
+            <div class="p-6">
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/3 flex-shrink-0">
                         {% if company.logo %}
-                            <img src="{{ company.logo.url }}" class="img-fluid rounded" alt="{{ company.name }} logo">
+                            <img src="{{ company.logo.url }}" class="w-full h-auto object-contain rounded-lg" alt="{{ company.name }} logo">
                         {% else %}
-                            <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="height: 150px;">
-                                <i class="fas fa-building fa-3x text-white"></i>
+                            <div class="w-full aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-6xl text-gray-500">apartment</span>
                             </div>
                         {% endif %}
                     </div>
-                    <div class="col-md-8">
-                        <h5>{{ company.name }}</h5>
-                        <p class="text-muted">{{ company.location }}</p>
+                    <div class="md:w-2/3">
+                        <h4 class="text-2xl font-bold text-foreground-light dark:text-foreground-dark">{{ company.name }}</h4>
+                        <p class="text-muted-light dark:text-muted-dark mt-1">{{ company.location }}</p>
                         
-                        <div class="row mt-3">
-                            <div class="col-sm-6">
-                                <strong>Email:</strong><br>
-                                {{ company.contact_email }}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 text-sm">
+                            <div>
+                                <strong class="block text-foreground-light dark:text-foreground-dark">Email:</strong>
+                                <a href="mailto:{{ company.contact_email }}" class="text-primary hover:underline truncate">{{ company.contact_email }}</a>
                             </div>
-                            <div class="col-sm-6">
-                                <strong>Website:</strong><br>
+                            <div>
+                                <strong class="block text-foreground-light dark:text-foreground-dark">Website:</strong>
                                 {% if company.website %}
-                                    <a href="{{ company.website }}" target="_blank">{{ company.website }}</a>
+                                    <a href="{{ company.website }}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline truncate">{{ company.website }}</a>
                                 {% else %}
-                                    Not provided
+                                    <span class="text-muted-light dark:text-muted-dark">Not provided</span>
                                 {% endif %}
                             </div>
                         </div>
                         
                         {% if company.description %}
-                            <div class="mt-3">
-                                <strong>Description:</strong><br>
-                                <p>{{ company.description|linebreaks }}</p>
+                            <div class="mt-4">
+                                <strong class="block text-sm text-foreground-light dark:text-foreground-dark">Description:</strong>
+                                <div class="prose dark:prose-invert max-w-none text-sm mt-1">
+                                    {{ company.description|linebreaks }}
+                                </div>
                             </div>
                         {% endif %}
                     </div>
@@ -68,76 +65,71 @@
             </div>
         </div>
         
-        <!-- Company Jobs -->
-        <div class="card mt-4">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5>Job Postings</h5>
-                <a href="{% url 'jobs:job_create' %}" class="btn btn-primary btn-sm">Post a Job</a>
+        <!-- Job Postings -->
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md">
+            <div class="p-6 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+                <h3 class="text-xl font-bold text-foreground-light dark:text-foreground-dark">Job Postings</h3>
+                <a href="{% url 'jobs:job_create' %}" class="px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Post a Job</a>
             </div>
-            <div class="card-body">
+            <div class="p-6">
                 {% if jobs %}
-                    <div class="row">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {% for job in jobs %}
-                            <div class="col-md-6 mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="card-title">{{ job.title }}</h6>
-                                            {% if job.is_active %}
-                                                <span class="badge bg-success">Active</span>
-                                            {% else %}
-                                                <span class="badge bg-secondary">Inactive</span>
-                                            {% endif %}
-                                        </div>
-                                        <p class="card-text">
-                                            <i class="fas fa-map-marker-alt me-1"></i>{{ job.location }}
-                                            {% if job.remote %}<span class="badge bg-info ms-2">Remote</span>{% endif %}
-                                        </p>
-                                        <p class="card-text">
-                                            <small class="text-muted">{{ job.job_type|title }} • Posted {{ job.posted_date|timesince }} ago</small>
-                                        </p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <a href="{% url 'jobs:job_detail' job.slug %}" class="btn btn-outline-primary btn-sm">View</a>
-                                            <small class="text-muted">
-                                                <i class="fas fa-users me-1"></i>{{ job.get_application_count }} applications
-                                            </small>
-                                        </div>
-                                    </div>
+                            <div class="bg-background-light dark:bg-background-dark rounded-lg p-4 border border-border-light dark:border-border-dark">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h4 class="font-bold text-foreground-light dark:text-foreground-dark">{{ job.title }}</h4>
+                                    <span class="px-2 py-0.5 text-xs font-semibold rounded-full {% if job.is_active %}bg-green-100 text-green-800{% else %}bg-gray-200 text-gray-800{% endif %}">
+                                        {% if job.is_active %}Active{% else %}Inactive{% endif %}
+                                    </span>
+                                </div>
+                                <p class="text-sm text-muted-light dark:text-muted-dark flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-base">location_on</span>
+                                    {{ job.location }}
+                                </p>
+                                <p class="text-xs text-muted-light dark:text-muted-dark mt-2">
+                                    {{ job.get_job_type_display }} &bull; Posted {{ job.posted_date|timesince }} ago
+                                </p>
+                                <div class="flex justify-between items-center mt-4">
+                                    <a href="{% url 'jobs:job_detail' job.slug %}" class="text-sm font-semibold text-primary hover:underline">View Job</a>
+                                    <p class="text-sm text-muted-light dark:text-muted-dark flex items-center gap-1">
+                                        <span class="material-symbols-outlined text-base">group</span>
+                                        {{ job.get_application_count }}
+                                    </p>
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
                 {% else %}
-                    <p class="text-muted">No jobs posted yet.</p>
-                    <a href="{% url 'jobs:job_create' %}" class="btn btn-primary">Post Your First Job</a>
+                    <div class="text-center py-8">
+                        <p class="text-muted-light dark:text-muted-dark">No jobs posted yet.</p>
+                        <a href="{% url 'jobs:job_create' %}" class="mt-4 inline-block px-6 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Post Your First Job</a>
+                    </div>
                 {% endif %}
             </div>
         </div>
     </div>
     
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5>Quick Stats</h5>
-            </div>
-            <div class="card-body">
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-briefcase me-2"></i>{{ total_jobs_count }} Total Jobs</li>
-                    <li><i class="fas fa-check-circle me-2"></i>{{ active_jobs_count }} Active Jobs</li>
-                    <li><i class="fas fa-users me-2"></i>{{ total_applications_count }} Total Applications</li>
-                </ul>
-            </div>
+    <!-- Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md p-6">
+            <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark mb-4">Quick Stats</h4>
+            <ul class="space-y-3 text-foreground-light dark:text-foreground-dark">
+                <li class="flex items-center gap-3"><span class="material-symbols-outlined text-xl text-muted-light dark:text-muted-dark">work</span> {{ total_jobs_count }} Total Jobs</li>
+                <li class="flex items-center gap-3"><span class="material-symbols-outlined text-xl text-muted-light dark:text-muted-dark">task_alt</span> {{ active_jobs_count }} Active Jobs</li>
+                <li class="flex items-center gap-3"><span class="material-symbols-outlined text-xl text-muted-light dark:text-muted-dark">group</span> {{ total_applications_count }} Total Applications</li>
+            </ul>
         </div>
         
-        <div class="card mt-3">
-            <div class="card-body text-center">
-                <h6>Quick Actions</h6>
-                <a href="{% url 'jobs:job_create' %}" class="btn btn-primary w-100 mb-2">Post a Job</a>
-                <a href="{% url 'jobs:job_list' %}" class="btn btn-outline-primary w-100 mb-2">Manage Jobs</a>
-                <a href="{% url 'applications:application_list' %}" class="btn btn-outline-primary w-100">View Applications</a>
+        <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md p-6">
+            <h4 class="text-lg font-bold text-foreground-light dark:text-foreground-dark mb-4">Quick Actions</h4>
+            <div class="flex flex-col gap-3">
+                <a href="{% url 'jobs:job_create' %}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">Post a Job</a>
+                <a href="{% url 'jobs:my_jobs' %}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">Manage Jobs</a>
+                <a href="{% url 'applications:application_list' %}" class="w-full text-center px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">View Applications</a>
             </div>
         </div>
     </div>
 </div>
 {% endif %}
 {% endblock %}
+

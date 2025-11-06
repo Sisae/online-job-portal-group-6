@@ -11,26 +11,58 @@ class HomeView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        user = self.request.user
         
-        if self.request.user.is_authenticated:
-            # Show employer's own jobs
-            context['recent_jobs'] = Job.objects.filter(created_by=self.request.user).order_by('-posted_date')[:6]
-            context['total_jobs'] = Job.objects.filter(created_by=self.request.user).count()
-            
-            # Application statistics
-            applications = Application.objects.filter(job__created_by=self.request.user)
-            context['total_applications'] = applications.count()
-            context['pending_applications'] = applications.filter(status='applied').count()
-            context['under_review'] = applications.filter(status='under_review').count()
-            context['interviews'] = applications.filter(status='interview').count()
-            context['offers'] = applications.filter(status='offer').count()
-            context['rejected'] = applications.filter(status='rejected').count()
-            
-            # Recent applications
-            context['recent_applications'] = applications.order_by('-applied_date')[:5]
+        if user.is_authenticated:
+            # Check if the user has a profile, which might not be the case for superusers
+            # or if the post-save signal failed.
+            if hasattr(user, 'profile'):
+                context['user_type'] = user.profile.user_type
+                
+                if user.profile.user_type == 'employer':
+                    # --- Employer Dashboard Data ---
+                    employer_jobs = Job.objects.filter(created_by=user)
+                    context['recent_jobs'] = employer_jobs.order_by('-posted_date')[:6]
+                    context['total_jobs'] = employer_jobs.count()
+                    
+                    applications = Application.objects.filter(job__in=employer_jobs)
+                    context['total_applications'] = applications.count()
+                    context['pending_applications'] = applications.filter(status='applied').count()
+                    
+                    # Application status breakdown
+                    status_counts = applications.values('status').annotate(count=Count('status'))
+                    status_map = {item['status']: item['count'] for item in status_counts}
+                    
+                    context['under_review'] = status_map.get('under_review', 0)
+                    context['interviews'] = status_map.get('interview', 0)
+                    context['offers'] = status_map.get('offer', 0)
+                    context['rejected'] = status_map.get('rejected', 0)
+
+                elif user.profile.user_type == 'job_seeker':
+                    # --- Seeker Dashboard Data ---
+                    my_applications = Application.objects.filter(applicant=user).order_by('-applied_date')
+                    context['recent_applications'] = my_applications[:5]
+                    context['total_applications_submitted'] = my_applications.count()
+
+                    # Application status breakdown
+                    status_counts = my_applications.values('status').annotate(count=Count('status'))
+                    status_map = {item['status']: item['count'] for item in status_counts}
+
+                    context['applied_count'] = status_map.get('applied', 0)
+                    context['under_review_count'] = status_map.get('under_review', 0)
+                    context['interview_count'] = status_map.get('interview', 0)
+                    context['offer_count'] = status_map.get('offer', 0)
+
+                    # Suggested jobs (exclude jobs already applied to)
+                    applied_job_ids = my_applications.values_list('job_id', flat=True)
+                    context['suggested_jobs'] = Job.objects.filter(is_active=True).exclude(id__in=applied_job_ids).order_by('-posted_date')[:5]
+            else:
+                # Default context for authenticated users without a profile (e.g., admin)
+                context['user_type'] = 'admin' # or some other default
+                context['recent_jobs'] = Job.objects.filter(is_active=True).order_by('-posted_date')[:4]
+
         else:
-            # Show some sample jobs for non-authenticated users
-            context['recent_jobs'] = Job.objects.filter(is_active=True).order_by('-posted_date')[:6]
-            context['total_jobs'] = Job.objects.filter(is_active=True).count()
+            # --- Unauthenticated User Homepage Data ---
+            context['recent_jobs'] = Job.objects.filter(is_active=True).order_by('-posted_date')[:4]
         
         return context

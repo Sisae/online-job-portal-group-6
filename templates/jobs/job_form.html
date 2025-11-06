@@ -1,101 +1,96 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block title %}{% if object %}Edit Job{% else %}Post a Job{% endif %} - Job Portal{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h3>{% if object %}Edit Job{% else %}Post a New Job{% endif %}</h3>
-            </div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="{{ form.title.id_for_label }}" class="form-label">Job Title *</label>
-                        <input type="text" class="form-control" name="title" id="{{ form.title.id_for_label }}" value="{{ form.title.value|default:'' }}" required>
-                        {% if form.title.errors %}
-                            <div class="text-danger">{{ form.title.errors }}</div>
-                        {% endif %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-card-light dark:bg-card-dark rounded-lg shadow-md">
+        <div class="p-6 border-b border-border-light dark:border-border-dark">
+            <h3 class="text-2xl font-bold text-foreground-light dark:text-foreground-dark">{% if object %}Edit Job{% else %}Post a New Job{% endif %}</h3>
+            <p class="text-muted-light dark:text-muted-dark mt-1">Fill out the details below to {% if object %}update your job posting{% else %}create a new job opening{% endif %}.</p>
+        </div>
+        <div class="p-6">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="bg-red-100 dark:bg-red-900/50 border border-red-400 text-red-700 dark:text-red-200 px-4 py-3 rounded-lg" role="alert">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    
-                    <div class="mb-3">
-                        <label for="{{ form.description.id_for_label }}" class="form-label">Job Description *</label>
-                        <textarea class="form-control" name="description" id="{{ form.description.id_for_label }}" rows="6" required>{{ form.description.value|default:'' }}</textarea>
-                        {% if form.description.errors %}
-                            <div class="text-danger">{{ form.description.errors }}</div>
-                        {% endif %}
+                {% endif %}
+
+                <div>
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark">Job Title</label>
+                    {% render_field form.title class="mt-1 block w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="e.g. Senior Python Developer" %}
+                    {% for error in form.title.errors %}
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark">Job Description</label>
+                    {% render_field form.description class="mt-1 block w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" rows="6" placeholder="Describe the role, responsibilities, and requirements..." %}
+                    {% for error in form.description.errors %}
+                        <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                    {% endfor %}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark">Location</label>
+                        {% render_field form.location class="mt-1 block w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="e.g. New York, NY" %}
+                        {% for error in form.location.errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="{{ form.location.id_for_label }}" class="form-label">Location *</label>
-                                <input type="text" class="form-control" name="location" id="{{ form.location.id_for_label }}" value="{{ form.location.value|default:'' }}" required>
-                                {% if form.location.errors %}
-                                    <div class="text-danger">{{ form.location.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="{{ form.job_type.id_for_label }}" class="form-label">Job Type *</label>
-                                <select class="form-select" name="job_type" id="{{ form.job_type.id_for_label }}" required>
-                                    <option value="">Select Job Type</option>
-                                    <option value="full-time" {% if form.job_type.value == 'full-time' %}selected{% endif %}>Full Time</option>
-                                    <option value="part-time" {% if form.job_type.value == 'part-time' %}selected{% endif %}>Part Time</option>
-                                    <option value="contract" {% if form.job_type.value == 'contract' %}selected{% endif %}>Contract</option>
-                                    <option value="internship" {% if form.job_type.value == 'internship' %}selected{% endif %}>Internship</option>
-                                    <option value="temporary" {% if form.job_type.value == 'temporary' %}selected{% endif %}>Temporary</option>
-                                </select>
-                                {% if form.job_type.errors %}
-                                    <div class="text-danger">{{ form.job_type.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
+                    <div>
+                        <label for="{{ form.job_type.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark">Job Type</label>
+                        {% render_field form.job_type class="mt-1 block w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" %}
+                        {% for error in form.job_type.errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="{{ form.salary.id_for_label }}" class="form-label">Salary (Optional)</label>
-                                <input type="number" class="form-control" name="salary" id="{{ form.salary.id_for_label }}" value="{{ form.salary.value|default:'' }}" step="0.01" min="0">
-                                {% if form.salary.errors %}
-                                    <div class="text-danger">{{ form.salary.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="{{ form.closing_date.id_for_label }}" class="form-label">Closing Date *</label>
-                                <input type="datetime-local" class="form-control" name="closing_date" id="{{ form.closing_date.id_for_label }}" value="{{ form.closing_date.value|default:'' }}" required>
-                                {% if form.closing_date.errors %}
-                                    <div class="text-danger">{{ form.closing_date.errors }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="{{ form.salary.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark">Salary (Optional)</label>
+                        {% render_field form.salary class="mt-1 block w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" placeholder="e.g. 120000" %}
+                        {% for error in form.salary.errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" name="remote" id="{{ form.remote.id_for_label }}" {% if form.remote.value %}checked{% endif %}>
-                        <label class="form-check-label" for="{{ form.remote.id_for_label }}">
-                            Remote work available
-                        </label>
-                        {% if form.remote.errors %}
-                            <div class="text-danger">{{ form.remote.errors }}</div>
-                        {% endif %}
+                    <div>
+                        <label for="{{ form.closing_date.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark">Application Closing Date</label>
+                        {% render_field form.closing_date type="datetime-local" class="mt-1 block w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm" %}
+                        {% for error in form.closing_date.errors %}
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                        {% endfor %}
                     </div>
-                    
-                    <div class="d-flex justify-content-between">
-                        <a href="{% url 'jobs:job_list' %}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">
-                            {% if object %}Update Job{% else %}Post Job{% endif %}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="flex items-center">
+                    {% render_field form.remote class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" %}
+                    <label for="{{ form.remote.id_for_label }}" class="ml-2 block text-sm text-foreground-light dark:text-foreground-dark">
+                        Remote work available
+                    </label>
+                    {% for error in form.remote.errors %}
+                        <p class="ml-4 text-sm text-red-600 dark:text-red-400">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                
+                <div class="flex items-center justify-end gap-4 pt-4 border-t border-border-light dark:border-border-dark">
+                    <a href="{% url 'jobs:my_jobs' %}" class="px-4 py-2 text-sm font-semibold rounded-lg bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">Cancel</a>
+                    <button type="submit" class="px-6 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+                        {% if object %}Update Job{% else %}Post Job{% endif %}
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 {% endblock %}
+

@@ -1,107 +1,119 @@
 {% extends 'base.html' %}
 
-{% block title %}Application Details - Job Portal{% endblock %}
+{% block title %}Application Details - {{ application.job.title }}{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h4>Application Details</h4>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <h6>Applicant Information</h6>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Main Content -->
+    <div class="lg:col-span-2">
+        <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold text-foreground-light dark:text-foreground-dark mb-6">Application Details</h2>
+
+            <!-- Applicant & Job Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-b border-border-light dark:border-border-dark pb-6 mb-6">
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Applicant Information</h3>
+                    <div class="space-y-2 text-sm">
                         <p><strong>Name:</strong> {{ application.applicant.get_full_name|default:application.applicant.username }}</p>
                         <p><strong>Email:</strong> {{ application.applicant.email }}</p>
                         {% if application.applicant.profile.phone_number %}
                             <p><strong>Phone:</strong> {{ application.applicant.profile.phone_number }}</p>
                         {% endif %}
                     </div>
-                    <div class="col-md-6">
-                        <h6>Job Information</h6>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-3">Job Information</h3>
+                    <div class="space-y-2 text-sm">
                         <p><strong>Position:</strong> {{ application.job.title }}</p>
                         <p><strong>Company:</strong> {{ application.job.company.name }}</p>
                         <p><strong>Location:</strong> {{ application.job.location }}</p>
                     </div>
                 </div>
-                
-                <div class="mb-3">
-                    <h6>Application Status</h6>
-                    <span class="badge bg-{{ application.get_status_display_class }} fs-6">
-                        {{ application.get_status_display }}
-                    </span>
-                    <p class="text-muted mt-1">
-                        Applied on {{ application.applied_date|date:"F d, Y" }} at {{ application.applied_date|time:"g:i A" }}
-                    </p>
-                </div>
-                
-                {% if application.cover_letter %}
-                    <div class="mb-3">
-                        <h6>Cover Letter</h6>
-                        <div class="border p-3 rounded">
-                            {{ application.cover_letter|linebreaks }}
-                        </div>
-                    </div>
-                {% endif %}
-                
-                {% if application.resume %}
-                    <div class="mb-3">
-                        <h6>Resume</h6>
-                        <a href="{{ application.resume.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-download me-1"></i>Download Resume
-                        </a>
-                    </div>
-                {% endif %}
-                
-                {% if user.profile.is_employer and application.notes %}
-                    <div class="mb-3">
-                        <h6>Internal Notes</h6>
-                        <div class="border p-3 rounded bg-light">
-                            {{ application.notes|linebreaks }}
-                        </div>
-                    </div>
-                {% endif %}
             </div>
+
+            <!-- Status -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-3">Application Status</h3>
+                <span class="px-3 py-1 text-sm font-semibold rounded-full 
+                    {% if application.status == 'applied' %}bg-blue-100 text-blue-800
+                    {% elif application.status == 'under_review' %}bg-yellow-100 text-yellow-800
+                    {% elif application.status == 'interview' %}bg-purple-100 text-purple-800
+                    {% elif application.status == 'offered' %}bg-green-100 text-green-800
+                    {% elif application.status == 'rejected' %}bg-red-100 text-red-800
+                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                    {{ application.get_status_display }}
+                </span>
+                <p class="text-muted-light dark:text-muted-dark text-xs mt-2">
+                    Applied on {{ application.applied_date|date:"F d, Y" }} at {{ application.applied_date|time:"g:i A" }}
+                </p>
+            </div>
+
+            <!-- Cover Letter -->
+            {% if application.cover_letter %}
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Cover Letter</h3>
+                    <div class="prose prose-sm max-w-none p-4 border border-border-light dark:border-border-dark rounded-lg bg-background-light dark:bg-background-dark">
+                        {{ application.cover_letter|linebreaks }}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Resume -->
+            {% if application.resume %}
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Resume</h3>
+                    <a href="{{ application.resume.url }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+                        <span class="material-symbols-outlined">download</span>
+                        Download Resume
+                    </a>
+                </div>
+            {% endif %}
+
+            <!-- Internal Notes -->
+            {% if user.profile.is_employer and application.notes %}
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Internal Notes</h3>
+                    <div class="prose prose-sm max-w-none p-4 border border-border-light dark:border-border-dark rounded-lg bg-yellow-50 dark:bg-yellow-900/20">
+                        {{ application.notes|linebreaks }}
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5>Actions</h5>
-            </div>
-            <div class="card-body">
-                <a href="{% url 'applications:application_status_update' application.id %}" class="btn btn-warning w-100 mb-2">
-                    <i class="fas fa-edit me-1"></i>Update Status
-                </a>
-                <a href="{% url 'jobs:job_detail' application.job.slug %}" class="btn btn-outline-primary w-100 mb-2">
-                    <i class="fas fa-eye me-1"></i>View Job
-                </a>
-                <a href="{% url 'applications:application_list' %}" class="btn btn-outline-secondary w-100">
-                    <i class="fas fa-arrow-left me-1"></i>Back to Applications
-                </a>
+
+    <!-- Sidebar -->
+    <div class="lg:col-span-1 space-y-6">
+        <!-- Actions -->
+        <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Actions</h3>
+            <div class="flex flex-col gap-3">
+                {% if user == application.job.created_by %}
+                    <a href="{% url 'applications:application_status_update' application.id %}" class="w-full text-center px-4 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition-colors">Update Status</a>
+                    <a href="{% url 'jobs:job_detail' application.job.slug %}" class="w-full text-center px-4 py-2 rounded-lg bg-primary/10 text-primary font-semibold hover:bg-primary/20 transition-colors">View Job Posting</a>
+                    <a href="{% url 'applications:application_list' %}" class="w-full text-center px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-foreground-light dark:text-foreground-dark font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">Back to All Applications</a>
+                {% elif user == application.applicant %}
+                    <a href="{% url 'jobs:job_detail' application.job.slug %}" class="w-full text-center px-4 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 transition-colors">View Job Posting</a>
+                    <a href="{% url 'applications:my_applications' %}" class="w-full text-center px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-foreground-light dark:text-foreground-dark font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">Back to My Applications</a>
+                {% endif %}
             </div>
         </div>
-        
-        <div class="card mt-3">
-            <div class="card-header">
-                <h6>Application Timeline</h6>
-            </div>
-            <div class="card-body">
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <small class="text-muted">{{ application.applied_date|date:"M d, Y" }}</small>
-                        <p class="mb-1">Application submitted</p>
-                    </div>
-                    {% if application.status != 'applied' %}
-                        <div class="timeline-item">
-                            <small class="text-muted">{{ application.updated_at|date:"M d, Y" }}</small>
-                            <p class="mb-1">Status updated to {{ application.get_status_display }}</p>
-                        </div>
-                    {% endif %}
+
+        <!-- Timeline -->
+        <div class="bg-card-light dark:bg-card-dark p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold mb-4">Application Timeline</h3>
+            <div class="relative border-l border-border-light dark:border-border-dark pl-6 space-y-6">
+                <div class="relative">
+                    <div class="absolute -left-[31px] top-1.5 size-4 bg-primary rounded-full border-4 border-card-light dark:border-card-dark"></div>
+                    <p class="text-sm font-semibold">Application Submitted</p>
+                    <p class="text-xs text-muted-light dark:text-muted-dark">{{ application.applied_date|date:"M d, Y" }}</p>
                 </div>
+                {% if application.status != 'applied' %}
+                    <div class="relative">
+                        <div class="absolute -left-[31px] top-1.5 size-4 bg-primary rounded-full border-4 border-card-light dark:border-card-dark"></div>
+                        <p class="text-sm font-semibold">Status Updated</p>
+                        <p class="text-xs text-muted-light dark:text-muted-dark">{{ application.updated_at|date:"M d, Y" }} - {{ application.get_status_display }}</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

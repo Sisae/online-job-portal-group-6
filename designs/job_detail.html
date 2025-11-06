@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Job Posting</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1173d4",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              display: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+<div class="flex min-h-screen w-full flex-col">
+<header class="sticky top-0 z-10 border-b border-slate-200/80 bg-background-light/80 dark:border-slate-800/80 dark:bg-background-dark/80 backdrop-blur-sm">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-8">
+<a class="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white" href="#">
+<svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+</svg>
+<span>CareerConnect</span>
+</a>
+<nav class="hidden items-center gap-6 md:flex">
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Home</a>
+<a class="text-sm font-medium text-primary dark:text-primary" href="#">Jobs</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Companies</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Salaries</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Career Advice</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="rounded-full p-2 text-slate-600 hover:bg-slate-200 hover:text-primary dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-primary">
+<span class="material-symbols-outlined"> search </span>
+</button>
+<button class="hidden rounded-lg bg-primary/10 px-4 py-2 text-sm font-semibold text-primary hover:bg-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30 sm:block">Post a Job</button>
+<button class="h-10 w-10 overflow-hidden rounded-full">
+<img alt="User avatar" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgyGkBjBEfWdnXZ1pIXE0_lc45EufDdeOC1Esd6hDkaOKdLyGPp3-cI-aQQ8DzyGuDgxhLT6OfrqpXPvTCVElKQxIYdH_bD4jcvn4znnJh2VWswz89_ObnkfM_U1fm9Y3GPu8TBC87jJMYqoTkcHqlBQwPdPoIRlTG-XkvtlmAhQLGuHMZjpo3LZKnaQIwQbi_TLFKJdMCXcdJLqGvmx-acpR6G7OzmOiL1v52hk61ITFAF0wNFc-5Gf0DpQxNRFu-WJQniqFSiig"/>
+</button>
+</div>
+</div>
+</header>
+<main class="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-4xl">
+<div class="mb-8">
+<nav class="flex items-center gap-2 text-sm">
+<a class="font-medium text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Jobs</a>
+<span class="text-slate-400 dark:text-slate-500">/</span>
+<span class="font-medium text-slate-800 dark:text-slate-200">Software Engineer</span>
+</nav>
+</div>
+<div class="mb-8">
+<h1 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">Senior Software Engineer</h1>
+<p class="mt-2 text-lg text-slate-600 dark:text-slate-400">Acme Corporation · Remote</p>
+</div>
+<div class="mb-8 flex items-center gap-4">
+<button class="rounded-lg bg-primary px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary/90">Apply Now</button>
+<button class="rounded-lg border border-slate-300 bg-background-light px-5 py-3 text-base font-semibold text-slate-700 hover:bg-slate-200 dark:border-slate-700 dark:bg-background-dark dark:text-slate-300 dark:hover:bg-slate-800">Save</button>
+</div>
+<div class="space-y-8">
+<div>
+<h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">Job Description</h2>
+<p class="text-slate-600 dark:text-slate-400">We are seeking a highly motivated and experienced Senior Software Engineer to join our growing team. As a Senior Software Engineer, you will be responsible for designing, developing, and maintaining high-quality software solutions. You will work closely with product managers, designers, and other engineers to deliver innovative products that meet the needs of our customers.</p>
+</div>
+<div>
+<h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">Responsibilities</h2>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Design and develop scalable and maintainable software solutions.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Write clean, well-documented code.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Collaborate with cross-functional teams to define and deliver new features.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Participate in code reviews and provide constructive feedback.</span>
+</li>
+</ul>
+</div>
+<div>
+<h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">Qualifications</h2>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Bachelor's degree in Computer Science or a related field.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">5+ years of experience in software engineering.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Strong proficiency in Java, Python, or a similar programming language.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined mt-1 text-primary"> check_circle </span>
+<span class="text-slate-600 dark:text-slate-400">Experience with cloud platforms such as AWS, Azure, or GCP.</span>
+</li>
+</ul>
+</div>
+<div>
+<h2 class="mb-4 text-2xl font-bold text-slate-900 dark:text-white">About Acme Corporation</h2>
+<p class="text-slate-600 dark:text-slate-400">Acme Corporation is a leading technology company that provides innovative software solutions to businesses worldwide. We are committed to fostering a collaborative and inclusive work environment where employees can thrive and grow their careers.</p>
+</div>
+<div class="border-t border-slate-200 pt-8 dark:border-slate-800">
+<button class="w-full rounded-lg bg-primary px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-primary/90 sm:w-auto">Apply Now</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

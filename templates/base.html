@@ -6,179 +6,224 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}CareerConnect{% endblock %}</title>
     
-    <!-- Bootstrap & Font Awesome -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                DEFAULT: "#1173d4",
+                50: "#eef6fc",
+                100: "#d9eaf9",
+                200: "#badcf5",
+                300: "#92c9f0",
+                400: "#62b1e9",
+                500: "#3f98e1",
+                600: "#2a7fcf",
+                700: "#2369b1",
+                800: "#1e5691",
+                900: "#1a4976",
+                950: "#112e4a",
+              },
+              secondary: {
+                DEFAULT: "#f59e0b",
+                50: "#fef8e6",
+                100: "#fdeec0",
+                200: "#fbdc8a",
+                300: "#f9c954",
+                400: "#f7b32f",
+                500: "#f59e0b",
+                600: "#d9820a",
+                700: "#b36508",
+                800: "#925006",
+                900: "#784205",
+                950: "#452203",
+              },
+              accent: {
+                DEFAULT: "#10b981",
+                50: "#e7f8f3",
+                100: "#cff1e7",
+                200: "#a0e3d0",
+                300: "#71d5b9",
+                400: "#42c7a2",
+                500: "#10b981",
+                600: "#0e9a6e",
+                700: "#0b7b5a",
+                800: "#096249",
+                900: "#074f3b",
+                950: "#042d22",
+              },
+              background: {
+                light: "#f6f7f8",
+                dark: "#101922",
+              },
+              foreground: {
+                light: "#1f2937",
+                dark: "#f9fafb",
+              },
+              card: {
+                light: "#ffffff",
+                dark: "#182431",
+              },
+              border: {
+                light: "#e5e7eb",
+                dark: "#374151",
+              },
+              muted: {
+                light: "#6b7280",
+                dark: "#9ca3af",
+              },
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+              lg: "0.75rem",
+              xl: "1rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-
-        /* Video Background */
-        .hero-video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-        .hero-video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Navbar transparent and glow logo */
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.3);
-        }
-        .glow-logo svg {
-            height: 50px;
-            animation: logoGlow 2.4s ease-in-out 1s infinite;
-        }
-        @keyframes logoGlow {
-            0% {filter: drop-shadow(0 0 4px rgba(17,115,212,0.6));}
-            50% {filter: drop-shadow(0 0 18px rgba(74,161,240,0.9));}
-            100% {filter: drop-shadow(0 0 6px rgba(17,115,212,0.7));}
-        }
-
-        main.container {
-            margin-top: 2rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Fully transparent boxes with visible text */
-        .transparent-box {
-            background: rgba(0,0,0,0.2); /* light dark overlay */
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-        }
-
-        /* Text colors */
-        .employers-text h3, .employers-text p {color: #1E90FF !important;} /* Blue */
-        .analytics-text h3, .analytics-text p {color: #32CD32 !important;} /* Green */
-
-        /* Remove default white for Bootstrap elements inside */
-        .transparent-box .alert, .transparent-box .card, .transparent-box .btn {
-            background: transparent !important;
-            color: inherit !important;
-        }
-
-        .job-card {transition: transform 0.2s;}
-        .job-card:hover {transform: translateY(-2px);}
-        .status-badge {font-size: 0.8em;}
-
-        /* Transparent Footer */
-        footer {
-            position: relative;
-            z-index: 1;
-            background-color: rgba(0,0,0,0.3);
-            color: #fff;
-        }
-        footer a {color: #fff; text-decoration: none;}
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
     </style>
+    {% block extra_head %}{% endblock %}
 </head>
-<body>
-    <!-- Hero Video Background -->
-    <div class="hero-video-container">
-        <video autoplay muted loop>
-            <source src="{% static 'career conect.mp4' %}" type="video/mp4">
-        </video>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 glow-logo" href="{% url 'core:home' %}">
-                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"/>
-                </svg>
-                <span class="fs-4 fw-bold text-white">CareerConnect</span>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'core:home' %}">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'jobs:job_list' %}">My Jobs</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'applications:application_list' %}">Applications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'companies:my_company' %}">Company Profile</a></li>
-                </ul>
-
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user me-1"></i>{{ user.get_full_name|default:user.username }}
+<body class="bg-background-light dark:bg-background-dark font-display text-foreground-light dark:text-foreground-dark">
+    <div class="relative flex flex-col min-h-screen">
+        <!-- Horizontal Navigation Bar -->
+        <header class="sticky top-0 z-10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm border-b border-border-light dark:border-border-dark">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Logo and Brand -->
+                    <div class="flex items-center gap-8">
+                        <a class="flex items-center gap-2 text-slate-800 dark:text-white" href="{% url 'core:home' %}">
+                            <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+                            </svg>
+                            <span class="text-xl font-bold">CareerConnect</span>
+                        </a>
+                        
+                        <!-- Main Navigation Links -->
+                        <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
+                            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors {% if request.path == '/' %}text-primary{% endif %}" href="{% url 'core:home' %}">Home</a>
+                            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors {% if '/jobs/' in request.path %}text-primary{% endif %}" href="{% url 'jobs:job_list' %}">Jobs</a>
+                            <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors {% if '/companies/' in request.path %}text-primary{% endif %}" href="{% url 'companies:company_list' %}">Companies</a>
+                            {% if user.is_authenticated %}
+                                {% if user.profile.is_job_seeker %}
+                                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors {% if '/applications/' in request.path %}text-primary{% endif %}" href="{% url 'applications:my_applications' %}">My Applications</a>
+                                {% else %}
+                                <a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors {% if 'my_jobs' in request.path %}text-primary{% endif %}" href="{% url 'jobs:my_jobs' %}">My Jobs</a>
+                                {% endif %}
+                            {% endif %}
+                        </nav>
+                    </div>
+                    
+                    <!-- Right Side: Actions and Profile -->
+                    <div class="flex items-center gap-4">
+                        {% if user.is_authenticated %}
+                            {% if user.profile.is_employer %}
+                            <a href="{% url 'jobs:job_create' %}" class="hidden sm:inline-flex items-center justify-center h-10 px-4 rounded-lg bg-primary/10 dark:bg-primary/20 text-primary text-sm font-bold hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors">
+                                Post a Job
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}">Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'companies:my_company' %}">Company Profile</a></li>
-                                <li><a class="dropdown-item" href="{% url 'jobs:job_list' %}">My Jobs</a></li>
-                                <li><a class="dropdown-item" href="{% url 'applications:application_list' %}">Applications</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="post" action="{% url 'accounts:logout' %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item btn-link" style="border:none; background:none; width:100%; text-align:left;">Logout</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container mt-4">
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            {% endif %}
+                            
+                            <!-- Profile Dropdown Button -->
+                            <div class="relative group">
+                                <button class="rounded-full">
+                                    {% if user.profile.profile_picture %}
+                                    <img alt="{{ user.get_full_name }}'s profile picture" class="size-10 rounded-full object-cover" src="{{ user.profile.profile_picture.url }}"/>
+                                    {% else %}
+                                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 bg-primary text-white flex items-center justify-center">
+                                        <span class="text-lg font-bold">{{ user.username|first|upper }}</span>
+                                    </div>
+                                    {% endif %}
+                                </button>
+                                
+                                <!-- Dropdown Menu -->
+                                <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-card-dark rounded-lg shadow-lg border border-border-light dark:border-border-dark opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+                                    <div class="py-2">
+                                        <a href="{% url 'accounts:profile' %}" class="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                            <span class="material-symbols-outlined text-lg">person</span>
+                                            Profile
+                                        </a>
+                                        <a href="#" class="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700">
+                                            <span class="material-symbols-outlined text-lg">settings</span>
+                                            Settings
+                                        </a>
+                                        <hr class="my-2 border-border-light dark:border-border-dark">
+                                        <form method="post" action="{% url 'accounts:logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 text-left">
+                                                <span class="material-symbols-outlined text-lg">logout</span>
+                                                Logout
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}" class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+                                Log In
+                            </a>
+                            <a href="{% url 'accounts:signup' %}" class="inline-flex items-center justify-center h-10 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+                                Sign Up
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
-            {% endfor %}
-        {% endif %}
-
-        {% block content %}
-        <!-- Transparent Sections -->
-        <section class="row g-4">
-            <div class="col-md-6 employers-text">
-                <div class="transparent-box">
-                    <h3>For Employers</h3>
-                    <p>Post jobs, manage applications, and find the right candidates for your company.</p>
-                </div>
             </div>
-            <div class="col-md-6 analytics-text">
-                <div class="transparent-box">
-                    <h3>Analytics & Insights</h3>
-                    <p>Track your job performance and application metrics with detailed analytics.</p>
-                </div>
+        </header>
+
+        <main class="flex-grow"
+        <main class="flex-grow">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="
+                            {% if message.tags == 'success' %} bg-green-100 border-green-400 text-green-700 dark:bg-green-900/50 dark:border-green-700 dark:text-green-300
+                            {% elif message.tags == 'error' %} bg-red-100 border-red-400 text-red-700 dark:bg-red-900/50 dark:border-red-700 dark:text-red-300
+                            {% elif message.tags == 'warning' %} bg-yellow-100 border-yellow-400 text-yellow-700 dark:bg-yellow-900/50 dark:border-yellow-700 dark:text-yellow-300
+                            {% else %} bg-blue-100 border-blue-400 text-blue-700 dark:bg-blue-900/50 dark:border-blue-700 dark:text-blue-300
+                            {% endif %}
+                            border px-4 py-3 rounded-lg relative mb-6 flex items-start gap-3"
+                            role="alert">
+                            <div class="flex-shrink-0 pt-0.5">
+                                <span class="material-symbols-outlined text-xl">
+                                    {% if message.tags == 'success' %}check_circle
+                                    {% elif message.tags == 'error' %}error
+                                    {% elif message.tags == 'warning' %}warning
+                                    {% else %}info
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="flex-grow">
+                                <strong class="font-bold">
+                                    {% if message.tags == 'success' %}Success!
+                                    {% elif message.tags == 'error' %}Error!
+                                    {% elif message.tags == 'warning' %}Warning!
+                                    {% else %}Notice:
+                                    {% endif %}
+                                </strong>
+                                <span class="block sm:inline">{{ message }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                {% block content %}
+                {% endblock %}
             </div>
-        </section>
-        {% endblock %}
-    </main>
-
-    <!-- Transparent Footer -->
-    <footer class="mt-5 py-4 text-center">
-        <div class="container">
-            <p>&copy; 2025 CareerConnect. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        </main>
+    </div>
 </body>
 </html>

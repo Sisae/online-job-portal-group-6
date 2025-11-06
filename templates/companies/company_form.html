@@ -1,71 +1,81 @@
 
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block title %}{% if object %}Edit Company{% else %}Create Company{% endif %} - Job Portal{% endblock %}
 
-{% block extra_head %}
-<link rel="stylesheet" href="/static/css/company_profile.css">
-{% endblock %}
-
 {% block content %}
-<div class="wrapper">
-    <h2>{% if object %}Edit Company Profile{% else %}Create Company Profile{% endif %}</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="input-field">
-            <input type="text" name="name" id="{{ form.name.id_for_label }}" value="{{ form.name.value|default:'' }}" required>
-            <label for="{{ form.name.id_for_label }}">Company Name *</label>
-        </div>
-        {% if form.name.errors %}
-            <div class="text-danger">{{ form.name.errors }}</div>
-        {% endif %}
+<div class="max-w-2xl mx-auto bg-card-light dark:bg-card-dark rounded-lg shadow-md overflow-hidden">
+    <div class="p-6">
+        <h2 class="text-2xl font-bold text-foreground-light dark:text-foreground-dark mb-6">
+            {% if object %}Edit Company Profile{% else %}Create Company Profile{% endif %}
+        </h2>
+        
+        <form method="post" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+            
+            <div>
+                <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark mb-1">Company Name *</label>
+                {% render_field form.name class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" placeholder="e.g. Innovate Inc." %}
+                {% if form.name.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.name.errors|first }}</p>
+                {% endif %}
+            </div>
 
-        <div class="input-field">
-            <input type="url" name="website" id="{{ form.website.id_for_label }}" value="{{ form.website.value|default:'' }}" placeholder="https://example.com">
-            <label for="{{ form.website.id_for_label }}">Website</label>
-        </div>
-        {% if form.website.errors %}
-            <div class="text-danger">{{ form.website.errors }}</div>
-        {% endif %}
+            <div>
+                <label for="{{ form.website.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark mb-1">Website</label>
+                {% render_field form.website class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" placeholder="https://example.com" %}
+                {% if form.website.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.website.errors|first }}</p>
+                {% endif %}
+            </div>
 
-        <div class="input-field">
-            <input type="text" name="location" id="{{ form.location.id_for_label }}" value="{{ form.location.value|default:'' }}" required>
-            <label for="{{ form.location.id_for_label }}">Location *</label>
-        </div>
-        {% if form.location.errors %}
-            <div class="text-danger">{{ form.location.errors }}</div>
-        {% endif %}
+            <div>
+                <label for="{{ form.location.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark mb-1">Location *</label>
+                {% render_field form.location class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" placeholder="e.g. San Francisco, CA" %}
+                {% if form.location.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.location.errors|first }}</p>
+                {% endif %}
+            </div>
 
-        <div class="input-field">
-            <input type="email" name="contact_email" id="{{ form.contact_email.id_for_label }}" value="{{ form.contact_email.value|default:'' }}" required>
-            <label for="{{ form.contact_email.id_for_label }}">Contact Email *</label>
-        </div>
-        {% if form.contact_email.errors %}
-            <div class="text-danger">{{ form.contact_email.errors }}</div>
-        {% endif %}
+            <div>
+                <label for="{{ form.contact_email.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark mb-1">Contact Email *</label>
+                {% render_field form.contact_email class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" placeholder="e.g. contact@innovate.com" %}
+                {% if form.contact_email.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.contact_email.errors|first }}</p>
+                {% endif %}
+            </div>
 
-        <div class="input-field">
-            <label for="{{ form.description.id_for_label }}" style="top:10px;left:0;transform:none;font-size:0.8rem;color:#fff;">Description</label>
-            <textarea name="description" id="{{ form.description.id_for_label }}" rows="4" style="width:100%;background:transparent;border:none;outline:none;font-size:16px;color:#fff;resize:vertical;">{{ form.description.value|default:'' }}</textarea>
-        </div>
-        {% if form.description.errors %}
-            <div class="text-danger">{{ form.description.errors }}</div>
-        {% endif %}
+            <div>
+                <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark mb-1">Description</label>
+                {% render_field form.description class="w-full px-3 py-2 bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark rounded-lg focus:ring-primary focus:border-primary" rows="5" placeholder="Tell us about your company..." %}
+                {% if form.description.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.description.errors|first }}</p>
+                {% endif %}
+            </div>
 
-        <div class="input-field" style="border:none;">
-            <label for="{{ form.logo.id_for_label }}" style="top:10px;left:0;transform:none;font-size:0.8rem;color:#fff;">Company Logo</label>
-            <input type="file" name="logo" id="{{ form.logo.id_for_label }}" accept="image/*" style="color:#fff;">
-        </div>
-        {% if form.logo.errors %}
-            <div class="text-danger">{{ form.logo.errors }}</div>
-        {% endif %}
-
-        <div class="forget">
-            <a href="{% url 'companies:my_company' %}">Cancel</a>
-            <button type="submit">
-                {% if object %}Update Company{% else %}Create Company{% endif %}
-            </button>
-        </div>
-    </form>
+            <div>
+                <label for="{{ form.logo.id_for_label }}" class="block text-sm font-medium text-foreground-light dark:text-foreground-dark mb-1">Company Logo</label>
+                {% if object.logo %}
+                    <div class="flex items-center gap-4 mb-2">
+                        <img src="{{ object.logo.url }}" alt="Current Logo" class="h-16 w-16 object-contain rounded-lg">
+                        <span class="text-xs text-muted-light dark:text-muted-dark">Current logo</span>
+                    </div>
+                {% endif %}
+                {% render_field form.logo class="w-full text-sm text-foreground-light dark:text-foreground-dark file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" %}
+                {% if form.logo.errors %}
+                    <p class="text-red-500 text-xs mt-1">{{ form.logo.errors|first }}</p>
+                {% endif %}
+            </div>
+            
+            <div class="flex justify-end items-center gap-4 pt-4">
+                <a href="{% url 'companies:my_company' %}" class="px-4 py-2 text-sm font-semibold rounded-lg text-foreground-light dark:text-foreground-dark hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Cancel</a>
+                <button type="submit" class="px-6 py-2 text-sm font-semibold rounded-lg bg-primary text-white hover:bg-primary/90 transition-colors">
+                    {% if object %}Update Company{% else %}Create Company{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
+
